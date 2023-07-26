@@ -12,6 +12,7 @@
 		3F1D0BB42A6FBCDF0012FA19 /* LibraryToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1D0BB32A6FBCDF0012FA19 /* LibraryToggleView.swift */; };
 		3F3989DA2A65697F00D6F2D2 /* AlbumCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3989D92A65697F00D6F2D2 /* AlbumCollectionViewCellViewModel.swift */; };
 		3F3EE6082A5D45F30059A82F /* APIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3EE6072A5D45F30059A82F /* APIImage.swift */; };
+		3F4530C62A7197EC000ADB8B /* AppConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3F4530C52A7197EC000ADB8B /* AppConfig.xcconfig */; };
 		3F50F0192A4D6D4000C6AC7E /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50F0182A4D6D4000C6AC7E /* AuthManager.swift */; };
 		3F50F01B2A4D765900C6AC7E /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50F01A2A4D765900C6AC7E /* Extension.swift */; };
 		3F50F01D2A4DA9D200C6AC7E /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50F01C2A4DA9D200C6AC7E /* AuthResponse.swift */; };
@@ -99,6 +100,7 @@
 		3F1D0BB32A6FBCDF0012FA19 /* LibraryToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryToggleView.swift; sourceTree = "<group>"; };
 		3F3989D92A65697F00D6F2D2 /* AlbumCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		3F3EE6072A5D45F30059A82F /* APIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIImage.swift; sourceTree = "<group>"; };
+		3F4530C52A7197EC000ADB8B /* AppConfig.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
 		3F50F0182A4D6D4000C6AC7E /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		3F50F01A2A4D765900C6AC7E /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		3F50F01C2A4DA9D200C6AC7E /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
@@ -155,7 +157,6 @@
 		3FB8C6D82A6FEBD40049A03F /* LibraryPlaylistsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPlaylistsResponse.swift; sourceTree = "<group>"; };
 		3FB8C6DA2A6FEDE10049A03F /* ActionLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionLabelView.swift; sourceTree = "<group>"; };
 		3FB8C6DC2A70BADB0049A03F /* LibraryAlbumsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryAlbumsResponse.swift; sourceTree = "<group>"; };
-		3FB8C6DE2A71330C0049A03F /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
 		3FC2AA562A557ABC00EE85F4 /* SettingModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModels.swift; sourceTree = "<group>"; };
 		3FDBD3E32A64F2B000434F25 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		3FDBD3E52A64F4C900434F25 /* RecommendedTrackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedTrackViewController.swift; sourceTree = "<group>"; };
@@ -214,7 +215,7 @@
 		3F6228132A4D2DCC0048B7F9 = {
 			isa = PBXGroup;
 			children = (
-				3FB8C6DE2A71330C0049A03F /* AppConfig.xcconfig */,
+				3F4530C52A7197EC000ADB8B /* AppConfig.xcconfig */,
 				3F62281E2A4D2DCC0048B7F9 /* Spotify_App */,
 				3F6228352A4D2DCD0048B7F9 /* Spotify_AppTests */,
 				3F62283F2A4D2DCD0048B7F9 /* Spotify_AppUITests */,
@@ -589,6 +590,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F62282C2A4D2DCD0048B7F9 /* LaunchScreen.storyboard in Resources */,
+				3F4530C62A7197EC000ADB8B /* AppConfig.xcconfig in Resources */,
 				3F6228292A4D2DCD0048B7F9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -838,7 +840,6 @@
 		};
 		3F6228472A4D2DCD0048B7F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3FB8C6DE2A71330C0049A03F /* AppConfig.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -866,7 +867,6 @@
 		};
 		3F6228482A4D2DCD0048B7F9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3FB8C6DE2A71330C0049A03F /* AppConfig.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
