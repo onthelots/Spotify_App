@@ -37,7 +37,7 @@ extension UIView {
     }
 }
 
-// DateFormatter
+// MARK: - Data formatter (for checking album release date)
 extension DateFormatter {
     static let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -61,6 +61,7 @@ extension String {
     }
 }
 
+// Notification name
 extension Notification.Name {
     static let albumSavedNotification = Notification.Name("albumSavedNotification")
 }

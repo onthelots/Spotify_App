@@ -9,25 +9,24 @@ import AVFoundation
 import Foundation
 import UIKit
 
-// Delegate Pattern
 protocol PlayerDataSource: AnyObject {
     var songName: String? { get }
     var subtitle: String? { get }
     var imageURL: URL? { get }
  }
 
+// MARK: - PlayBAckPresenter
+
 final class PlayBackPresenter {
     
     static let shared = PlayBackPresenter()
     
-    // 3️⃣startPlayback 메서드를 실행할 때 마다, 아래 track, tracks 데이터가 할당이 됨
+    // AVFoundation
     private var track: AudioTrack?
     private var tracks = [AudioTrack]()
     
-    // delegate?
     var playerVC: PlayerViewController?
     
-    // 현재 PlayViewController 저장변수
     private weak var currentPlayerVC: PlayerViewController?
     
     

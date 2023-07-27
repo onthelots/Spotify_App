@@ -48,8 +48,8 @@ class WelcomeViewController: UIViewController {
         return imageView
     }()
     
-    // label
-    private let label: UILabel = {
+    // introductionLabel
+    private let introductionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -57,7 +57,6 @@ class WelcomeViewController: UIViewController {
         label.sizeToFit()
         label.textAlignment = .center
         label.font = .preferredFont(forTextStyle: .headline)
-        
         label.text = "글로벌 음악 앱 Spotify와 함께 \n내 마음에 꼭 드는 플레이리스트를 발견하세요"
         let labelString = NSMutableAttributedString(string: label.text!)
         let paragrphStyle = NSMutableParagraphStyle()
@@ -69,27 +68,27 @@ class WelcomeViewController: UIViewController {
         )
         return label
     }()
-
+    
+    // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        
         title = "Spotify"
         view.addSubview(backgroundImageView)
         view.addSubview(overlayView)
-        view.addSubview(label)
+        view.addSubview(introductionLabel)
         view.addSubview(iconImageView)
         view.addSubview(signInButton)
         
-        // addTarget을 통해 signInButton이 클릭(TouchUpInside)되었을 때 didTapSignIn 메서드를 실행(#selector)
+        // Action (didTapSignIn)
         signInButton.addTarget(self,
                                action: #selector(didTapSignIn),
                                for: .touchUpInside)
     }
     
+    // MARK: - Layout SubViews
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         let safeArea = view.safeAreaLayoutGuide
         
         // backgroundImageView
@@ -112,15 +111,15 @@ class WelcomeViewController: UIViewController {
         NSLayoutConstraint.activate([
             iconImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             iconImageView.heightAnchor.constraint(equalToConstant: 40),
-            iconImageView.bottomAnchor.constraint(equalTo: label.topAnchor, constant: -20),
+            iconImageView.bottomAnchor.constraint(equalTo: introductionLabel.topAnchor, constant: -20),
         ])
         
         // label
         NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            label.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
-            label.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
+            introductionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            introductionLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            introductionLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
+            introductionLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
         ])
         
         // signInButton
@@ -135,30 +134,20 @@ class WelcomeViewController: UIViewController {
     // [Method] SignIn을 클릭할 경우
     @objc func didTapSignIn() {
         let vc = AuthViewController()
+        // Go to Login View
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
         
-        // SignIn 버튼을 누른 이후 작업해야 할 사항이며, success란 인자를 활용 -> 비동기 처리를 통해 handleSignIn 메서드를 실행시켜줌
-        // handleSignIn 메서드 또한 Success란 매개변수를 가지고 있으며, 내부로직에서 true 혹은 false 작업을 비동기 적으로 실시하면
-        // AuthVC로 넘어가거나, TabBarVC로 넘어가는 방식을 취함
-        // [weak self] -> 순환 참조를 방지하기 위해
-        
-        // MARK: - 비동기 실행 signIn이 완료되고, completionHandler가 success가 될 경우 ->     84번줄로
         vc.completionHandler = { [weak self] success in
             DispatchQueue.main.async {
                 self?.handleSignIn(success: success)
             }
         }
-        
-        // AuthViewController의 largeTitle은 보이지 않게 하며
-        vc.navigationItem.largeTitleDisplayMode = .never
-        
-        // AuthViewController 화면으로 이동시킴
-        navigationController?.pushViewController(vc, animated: true)
     }
     
+    // MARK: - Branching by successful login
     private func handleSignIn(success: Bool) {
-        // 로그인 되거나, 그렇지 않아서 오류를 보여주거나
         guard success else {
-            // 실패하면 알림을 띄어주자
             let alert = UIAlertController(title: "Oops",
                                           message: "Something went wrong when signing in.", preferredStyle: .alert)
             
@@ -167,12 +156,9 @@ class WelcomeViewController: UIViewController {
             return
         }
         
+        // go to TabBarViewController
         let mainAppTabBarVC = TabBarViewController()
-        
-        // 아예 뒤로(WelcomeHome) 갈 수 없도록 fullScreen의 모달형식을 띄어버림
         mainAppTabBarVC.modalPresentationStyle = .fullScreen
-        
-        // mainAppTabBarVC인 TabBarViewController(Core)로 이동
         present(mainAppTabBarVC, animated: true)
     }
 }
