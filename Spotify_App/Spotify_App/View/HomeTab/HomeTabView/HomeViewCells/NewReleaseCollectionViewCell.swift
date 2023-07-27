@@ -11,7 +11,9 @@ import Kingfisher
 class NewReleaseCollectionViewCell: UICollectionViewCell {
     static let identifier = "NewReleaseCollectionViewCell"
     
-    // Component 1. albumCoverImage
+    // MARK: - Components
+    
+    // albumCoverImage
     private let albumCoverImageView: UIImageView = {
        let imageView = UIImageView()
         imageView.image = UIImage(systemName: "photo")
@@ -20,7 +22,7 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    // Component 2. albumLabel + TextStyle (for dynamic type)
+    // albumLabel
     private let albumLabel: UILabel = {
        let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .headline)
@@ -30,7 +32,7 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    // Component 3. numberOfTracksLabel + TextStyle (for dynamic type)
+    // numberOfTracksLabel
     private let numberOfTracksLabel: UILabel = {
        let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
@@ -40,7 +42,7 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    // Component 4. artistNameLabel + TextStyle (for dynamic type)
+    // artistNameLabel
     private let artistNameLabel: UILabel = {
        let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
@@ -50,7 +52,7 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    // ContentView 기본 Layout 설정
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .secondarySystemBackground
@@ -66,9 +68,10 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
         fatalError()
     }
     
-    // SubView Layout 설정
+    // MARK: - Layout setting
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         // AlbumCoverImageView
         NSLayoutConstraint.activate([
             albumCoverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -110,15 +113,14 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
-        // 재사용 되기전에 초기화
+    
         albumCoverImageView.image = nil
         albumLabel.text = nil
         artistNameLabel.text = nil
         numberOfTracksLabel.text = nil
     }
     
-    // 각각의 컴포넌트에 NewReleasesCellViewModel 타입의 데이터를 매개변수값으로 할당함
+    // MARK: - Configure
     func configure(with viewModel: NewReleasesCellViewModel) {
         albumCoverImageView.kf.setImage(with: viewModel.artworkURL)
         albumLabel.text = viewModel.name

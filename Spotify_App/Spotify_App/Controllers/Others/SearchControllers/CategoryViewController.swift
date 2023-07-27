@@ -9,28 +9,24 @@ import UIKit
 
 class CategoryViewController: UIViewController {
     
+    // store parsed data
     let category: Category
     
+    // MARK: - Components
+    
+    // collectionView
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { _, _ -> NSCollectionLayoutSection in
         
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.5),
-            heightDimension: .fractionalHeight(1.0)
-        )
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                              heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
         item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(150)
-        )
-        
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            repeatingSubitem: item,
-            count: 2
-        )
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .absolute(150))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       repeatingSubitem: item,
+                                                       count: 2)
         
         let section = NSCollectionLayoutSection(group: group)
         return section
@@ -49,7 +45,7 @@ class CategoryViewController: UIViewController {
     
     private var playlists = [Playlist]()
     
-    // MARK: - Life Cycle
+    // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         title = category.name
@@ -65,6 +61,11 @@ class CategoryViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        fetchData()
+    }
+    
+    // MARK: - Fetch Data (with API Caller)
+    private func fetchData() {
         APICaller.shared.getCategoryPlaylists(category: category) { result in
             DispatchQueue.main.async {
                 switch result {
@@ -78,17 +79,21 @@ class CategoryViewController: UIViewController {
         }
     }
     
+    // MARK: - Layout Settings
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.frame = view.bounds
     }
 }
 
+// MARK: - Delegate, DataSource, Layout
 extension CategoryViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    // number Of Items In Section
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return playlists.count
     }
     
+    // cell Return
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: FeaturedPlaylistsCollectionViewCell.identifier,
@@ -105,6 +110,7 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
         return cell
     }
     
+    // selected Items
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let playlists = playlists[indexPath.item]

@@ -7,7 +7,7 @@
 
 import Foundation
 
-// MARK: - Section의 기본적인 형태를 나타내기 위한 세팅 (Model)
+// default form of the section
 struct Section {
     let title: String
     let option: [Option]

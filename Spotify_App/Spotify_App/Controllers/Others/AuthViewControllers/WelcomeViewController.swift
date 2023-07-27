@@ -9,6 +9,8 @@ import UIKit
 
 class WelcomeViewController: UIViewController {
     
+    // MARK: Components
+    
     // background ImageView
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -131,7 +133,6 @@ class WelcomeViewController: UIViewController {
         ])
     }
     
-    // [Method] SignIn을 클릭할 경우
     @objc func didTapSignIn() {
         let vc = AuthViewController()
         // Go to Login View

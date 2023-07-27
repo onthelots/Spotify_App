@@ -12,6 +12,7 @@ class SearchResultSubtitleTableViewCell: UITableViewCell {
     
     static let identifier = "SearchResultSubtitleTableViewCell"
     
+    // MARK: - Components
     // stackView (labels)
     private let verticalStackView: UIStackView = {
         let stackView = UIStackView()
@@ -54,21 +55,20 @@ class SearchResultSubtitleTableViewCell: UITableViewCell {
         return imageView
     }()
     
+    // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(verticalStackView)
         contentView.addSubview(iconImageView)
         contentView.clipsToBounds = true
-        
-        // Cell의 부가적인 기능 (기본적으로 오른쪽에 위치)
-        // DisclosureIndicator -> 세브론 모양(화살표)의 액세서리
-        accessoryType = .disclosureIndicator
+        accessoryType = .disclosureIndicator // DisclosureIndicator -> Chevron shape
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Layout setting
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -97,13 +97,8 @@ class SearchResultSubtitleTableViewCell: UITableViewCell {
         label.text = nil
         subtitleLabel.text = nil
     }
-
-//    override func setSelected(_ selected: Bool, animated: Bool) {
-//        super.setSelected(selected, animated: animated)
-//
-//        // Configure the view for the selected state
-//    }
     
+    // MARK: - Configure
     func configure(with viewModel: SearchResultSubtitleTableViewCellViewModel) {
         label.text = viewModel.title
         subtitleLabel.text = viewModel.subtitle

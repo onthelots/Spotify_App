@@ -13,21 +13,21 @@ final class HapticManager {
     
     private init() { }
     
-    // 선택에 따른 진동
+    // select for vibrate
     public func vibrateForSelection() {
         DispatchQueue.main.async {
             let generator = UISelectionFeedbackGenerator()
-            generator.prepare() // 준비하고
-            generator.selectionChanged() // 셀렉션을 변경한다?
+            generator.prepare()
+            generator.selectionChanged()
         }
     }
     
-    // 진동효과
+    // vibrate type
     public func vibrate(for type: UINotificationFeedbackGenerator.FeedbackType) {
         DispatchQueue.main.async {
             let generator = UINotificationFeedbackGenerator()
             generator.prepare() // 준비하고
-            generator.notificationOccurred(type) // 타입에 따라 알림
+            generator.notificationOccurred(type)
         }
     }
 }

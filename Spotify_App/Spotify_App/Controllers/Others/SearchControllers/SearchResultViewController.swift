@@ -7,27 +7,28 @@
 
 import UIKit
 
-// TODO: - CollectionView로 보기 좋게 UI 변경하기
-
+// result sections
 struct SearchSection {
     let title: String
     let results: [SearchResult]
 }
 
-// MARK: - row를 눌렀을 때, 다른 VC로 넘어가기 위한 Delegate 설정
+// delegate didTapResult
 protocol SearchResultsViewControllerDelegate: AnyObject {
     func didTapResult(_ result: SearchResult)
 }
 
-class SearchResultViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
+class SearchResultViewController: UIViewController{
     
-    // Section title에 따라 구분되기 위해, 2차원으로 타입을 변경함
+    // Search Results save in sections
     private var sections: [SearchSection] = []
     
-    // VC Push delegate
+    // delegate
     weak var delegate: SearchResultsViewControllerDelegate?
 
-    // tableViw
+    // MARK: - Components
+    
+    // tableView
     private let tableView: UITableView = {
         let tableView = UITableView(
             frame: .zero,
@@ -47,6 +48,7 @@ class SearchResultViewController: UIViewController,UITableViewDelegate, UITableV
         return tableView
     }()
 
+    // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
@@ -55,15 +57,14 @@ class SearchResultViewController: UIViewController,UITableViewDelegate, UITableV
         tableView.dataSource = self
     }
     
+    // MARK: - Layout Settings
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
     
+    // MARK: - update (Store the results divided into two-dimensional arrays to create a section)
     func update(with results: [SearchResult]) {
-        
-        // 각각의 Case 마다 Section으로 만들어줘야하기 때문에, 해당하는 Case의 값만 가져오고(true), 나머지는 X(false)
-        
         let artists = results.filter { item in
             switch item {
             case .artist:
@@ -100,6 +101,7 @@ class SearchResultViewController: UIViewController,UITableViewDelegate, UITableV
             }
         }
         
+        // sections (two-dimensional arrays, Values with different arrays in the array)
         self.sections = [
             SearchSection(title: "Songs",
                           results: tracks),
@@ -113,24 +115,31 @@ class SearchResultViewController: UIViewController,UITableViewDelegate, UITableV
         
         tableView.reloadData()
         
-        // results 가 비어있지 않다면(false) -> tableView.isHidden Boolean값도 false로 변환
+        // Show views based on results
         tableView.isHidden = results.isEmpty
     }
+
+}
+
+// MARK: - Delegate, DataSource, Layout
+extension SearchResultViewController: UITableViewDelegate, UITableViewDataSource {
     
+    // number of Section
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
     
+    // number Of Items In Section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sections[section].results.count
     }
     
+    // cell Return
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        var content = defaultCell.defaultContentConfiguration()
         let result = sections[indexPath.section].results[indexPath.row]
-
-        // row, 혹은 Section에 따라 TableViewCell을 다르게 보여주기 위함
+        
         switch result {
+            // album sections
         case .album(let album):
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: SearchResultSubtitleTableViewCell.identifier,
@@ -147,6 +156,7 @@ class SearchResultViewController: UIViewController,UITableViewDelegate, UITableV
             cell.configure(with: viewModel)
             return cell
 
+            // artist sections
         case .artist(model: let artist):
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: SearchResultDefaultTableViewCell.identifier,
@@ -162,6 +172,7 @@ class SearchResultViewController: UIViewController,UITableViewDelegate, UITableV
             cell.configure(with: viewModel)
             return cell
             
+            // playlist sections
         case .playlist(model: let playlist):
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: SearchResultSubtitleTableViewCell.identifier,
@@ -178,6 +189,7 @@ class SearchResultViewController: UIViewController,UITableViewDelegate, UITableV
             cell.configure(with: viewModel)
             return cell
             
+            // track sections
         case .track(model: let track) :
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: SearchResultSubtitleTableViewCell.identifier,
@@ -196,6 +208,7 @@ class SearchResultViewController: UIViewController,UITableViewDelegate, UITableV
         }
     }
     
+    // selected rows
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let result = sections[indexPath.section].results[indexPath.row]
@@ -204,6 +217,7 @@ class SearchResultViewController: UIViewController,UITableViewDelegate, UITableV
         delegate?.didTapResult(result)
     }
     
+    // setting header
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section].title
     }

@@ -7,19 +7,20 @@
 
 import UIKit
 
-struct ActionLabelViewModel {
-    let text: String
-    let actionTitle: String
-}
-
+// Delegate protocol
 protocol ActionLabelVieweDelegate: AnyObject {
     func actionLabelViewDidTapButton(_ actionView: ActionLabelView)
 }
 
 class ActionLabelView: UIView {
     
+    // delegate
     weak var delegate: ActionLabelVieweDelegate?
     
+    
+    // MARK: - Components
+    
+    // stackview(label, button)
     private let verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -48,17 +49,18 @@ class ActionLabelView: UIView {
         return button
     }()
     
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         clipsToBounds = true
-        // 조건에 따라 View가 나타나기 위해 isHidden true 값으로 설정
-        isHidden = true
-        // addSubviews
         
+        // according to the conditions
+        isHidden = true
         verticalStackView.addArrangedSubview(label)
         verticalStackView.addArrangedSubview(button)
         addSubview(verticalStackView)
         
+        // button (add playlists or move to another tap)
         button.addTarget(
             self,
             action: #selector(didTapButton),
@@ -70,6 +72,11 @@ class ActionLabelView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func didTapButton() {
+        delegate?.actionLabelViewDidTapButton(self)
+    }
+    
+    // MARK: - Layout setting
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -84,11 +91,7 @@ class ActionLabelView: UIView {
         ])
     }
     
-    @objc func didTapButton() {
-        delegate?.actionLabelViewDidTapButton(self)
-        print("버튼이 눌렸습니다")
-    }
-    
+    // MARK: - Configure
     func configure(with viewModel: ActionLabelViewModel) {
         label.text = viewModel.text
         button.setTitle(viewModel.actionTitle, for: .normal)

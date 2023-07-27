@@ -13,6 +13,7 @@ class SearchResultDefaultTableViewCell: UITableViewCell {
     
     static let identifier = "SearchResultDefaultTableViewCell"
     
+    // MARK: - Components
     // label
     private let label: UILabel = {
         let label = UILabel()
@@ -33,21 +34,20 @@ class SearchResultDefaultTableViewCell: UITableViewCell {
         return imageView
     }()
     
+    // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(label)
         contentView.addSubview(iconImageView)
         contentView.clipsToBounds = true
-        
-        // Cell의 부가적인 기능 (기본적으로 오른쪽에 위치)
-        // DisclosureIndicator -> 세브론 모양(화살표)의 액세서리
-        accessoryType = .disclosureIndicator
+        accessoryType = .disclosureIndicator // DisclosureIndicator -> Chevron shape
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Layout setting
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -76,12 +76,7 @@ class SearchResultDefaultTableViewCell: UITableViewCell {
         label.text = nil
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // TODO: Configure the view for the selected state
-    }
-    
+    // MARK: - Configure
     func configure(with viewModel: SearchResultDefaultTableViewCellViewModel) {
         label.text = viewModel.title
         iconImageView.kf.setImage(with: viewModel.imageURL ?? nil)

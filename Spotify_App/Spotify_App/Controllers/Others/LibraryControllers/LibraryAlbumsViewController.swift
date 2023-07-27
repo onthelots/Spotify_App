@@ -9,12 +9,15 @@ import UIKit
 
 class LibraryAlbumsViewController: UIViewController {
     
+    // store parsed data
     var albums = [Album]()
 
-    // 플레이리스트가 없는 경우 나타낼 UIView()
+    // actionLabelView()
     private let noAlbumsView = ActionLabelView()
     
-    // 플레이리스트를 보여줄 UITableView
+    // MARK: - Components
+    
+    // tableView()
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -25,7 +28,8 @@ class LibraryAlbumsViewController: UIViewController {
         tableView.isHidden = true
         return tableView
     }()
-
+    
+    // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -48,9 +52,8 @@ class LibraryAlbumsViewController: UIViewController {
     // MARK: - Observer
     private var observer: NSObjectProtocol?
     
-    
+    // MARK: - Layout Settings
     override func viewDidLayoutSubviews() {
-        
         noAlbumsView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -66,11 +69,9 @@ class LibraryAlbumsViewController: UIViewController {
         ])
     }
     
-    // MARK: - setUp noAlbumsView (저장된 앨범이 없을때)
+    // MARK: - set up (no albums view)
     private func setUpNoPlaylistView() {
         view.addSubview(noAlbumsView)
-        
-        // 델리게이트 생성 (noPlaylistsView의 위임을 해당 VC에서 받는다)
         noAlbumsView.delegate = self
         noAlbumsView.configure(
             with: ActionLabelViewModel(
@@ -79,10 +80,8 @@ class LibraryAlbumsViewController: UIViewController {
         )
     }
     
-    // MARK: - fetch getCurrentUserPlaylists
+    // MARK: - fetch getCurrentUserAlbums
     private func fetchData() {
-        
-        // observer를 활용하여 저장된 앨범을 refresh하기 위해
         albums.removeAll()
         
         APICaller.shared.getCurrnUserAlbums { [weak self] result in
@@ -98,7 +97,7 @@ class LibraryAlbumsViewController: UIViewController {
         }
     }
     
-    // MARK: - UI 업데이트
+    // MARK: - UI Update
     private func updateUI() {
         if albums.isEmpty {
             noAlbumsView.isHidden = false
@@ -112,19 +111,21 @@ class LibraryAlbumsViewController: UIViewController {
     }
 }
 
-// MARK: - delegate (ActionDidTapButton / 앨범 찾기 버튼을 눌렀을 때)
+// MARK: - delegate (did '앨범 찾기 버튼' Tapped)
 extension LibraryAlbumsViewController: ActionLabelVieweDelegate {
     func actionLabelViewDidTapButton(_ actionView: ActionLabelView) {
-        // tabBarController의 Index를 옮겨서 searchView로
         tabBarController?.selectedIndex = 0
     }
 }
 
+// MARK: - Delegate, DataSource, Layout
 extension LibraryAlbumsViewController: UITableViewDelegate, UITableViewDataSource {
+    // number Of Rows In Section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return albums.count
     }
     
+    // cell Return
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultSubtitleTableViewCell.identifier,
                                                        for: indexPath) as? SearchResultSubtitleTableViewCell else {
@@ -137,6 +138,7 @@ extension LibraryAlbumsViewController: UITableViewDelegate, UITableViewDataSourc
         return cell
     }
     
+    // selected Row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
@@ -151,6 +153,7 @@ extension LibraryAlbumsViewController: UITableViewDelegate, UITableViewDataSourc
         
     }
     
+    // row height
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }

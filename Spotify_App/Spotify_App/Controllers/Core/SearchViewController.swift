@@ -10,10 +10,10 @@ import SafariServices
 
 class SearchViewController: UIViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
-    // SearchController
+    // MARK: - Components
+    
+    // searchController
     let searchController: UISearchController = {
-        
-        // initializer SearchController (검색 결과를 나타내는 'SearchResultViewController'가 담긴 vc를 만듬)
         let vc = UISearchController(searchResultsController: SearchResultViewController())
         vc.searchBar.placeholder = "Song, Artists, Albums"
         vc.searchBar.searchBarStyle = .minimal
@@ -26,64 +26,48 @@ class SearchViewController: UIViewController, UISearchResultsUpdating, UISearchB
         frame: .zero,
         collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { _, _ -> NSCollectionLayoutSection? in
            
-            // item
-            let itemSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.5),
-                heightDimension: .fractionalHeight(1)
-            )
-            
+            // NSCollectionLayoutSection (setting sections layout)
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                                  heightDimension: .fractionalHeight(1))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 2,
+                                                         leading: 7,
+                                                         bottom: 2,
+                                                         trailing: 7)
             
-            item.contentInsets = NSDirectionalEdgeInsets(
-                top: 2,
-                leading: 7,
-                bottom: 2,
-                trailing: 7
-            )
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                   heightDimension: .absolute(110))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                           repeatingSubitem: item,
+                                                           count: 2)
+            group.contentInsets = NSDirectionalEdgeInsets(top: 5,
+                                                          leading: 0,
+                                                          bottom: 5,
+                                                          trailing: 0)
             
-            // group
-            let groupSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .absolute(110)
-            )
-            
-            let group = NSCollectionLayoutGroup.horizontal(
-                layoutSize: groupSize,
-                repeatingSubitem: item,
-                count: 2
-            )
-            
-            group.contentInsets = NSDirectionalEdgeInsets(
-                top: 5,
-                leading: 0,
-                bottom: 5,
-                trailing: 0
-            )
-            
-            // section
             let section = NSCollectionLayoutSection(group: group)
             
             return section
         })
     )
     
+    // Array to store parsed data
     private var categories = [Category]()
     
-    // MARK: - Lifecycle
-
+    // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Search"
         view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         
-        // 검색 결과를 업데이트&담당
+        // search Results update
         searchController.searchResultsUpdater = self
         
-        // 검색창(Bar)에 대한 기능을 담당
+        // searchBar
         searchController.searchBar.delegate = self
         
-        //configure navigationItem SearchController
+        // configure navigationItem SearchController
         navigationItem.searchController = searchController
         
         collectionView.register(CategoryCollectionViewCell.self,
@@ -100,8 +84,6 @@ class SearchViewController: UIViewController, UISearchResultsUpdating, UISearchB
             DispatchQueue.main.async {
                 switch result {
                 case .success(let categories):
-                    
-                    // 빈 배열에 받아오는 Category 배열을 부여함
                     self?.categories = categories
                     self?.collectionView.reloadData()
                 case .failure(let error):
@@ -111,24 +93,21 @@ class SearchViewController: UIViewController, UISearchResultsUpdating, UISearchB
         }
     }
     
+    // MARK: - Layout Settings
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.collectionView.frame = view.bounds
     }
     
-    // MARK: - Delegate -> Search Button Clicked
+    // MARK: - Delegate(Search Button Clicked)
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        // query -> searchBar에 작성되는 text
         guard let resultsController = searchController.searchResultsController as? SearchResultViewController,
               let query = searchBar.text,
-              // query text의 공백을 모두 제거한 이후, 비어있지 않다면(Not Empty)
               !query.trimmingCharacters(in: .whitespaces).isEmpty else {
             return
         }
-        
-        // MARK: - ✅ SearchViewController에서 나타나는 searchResultsController의 위임을 받고
+
         resultsController.delegate = self
-        
         APICaller.shared.search(with: query) { result in
             DispatchQueue.main.async {
                 switch result {
@@ -141,7 +120,7 @@ class SearchViewController: UIViewController, UISearchResultsUpdating, UISearchB
         }
     }
     
-    // MARK: - Delegate -> Search Results method
+    // MARK: - Delegate(Search Results method)
     func updateSearchResults(for searchController: UISearchController) {
         
         // query -> searchBar에 작성되는 text
@@ -152,9 +131,7 @@ class SearchViewController: UIViewController, UISearchResultsUpdating, UISearchB
             return
         }
         
-        // MARK: - ✅ SearchViewController에서 나타나는 searchResultsController의 위임을 받고
         resultsController.delegate = self
-        
         APICaller.shared.search(with: query) { result in
             DispatchQueue.main.async {
                 switch result {
@@ -168,8 +145,7 @@ class SearchViewController: UIViewController, UISearchResultsUpdating, UISearchB
     }
 }
 
-// MARK: - ✅ SearchResultsViewControllerDelegate의 showResult 메서드 구현함
-// navigationController, pushVC를 인자로 진행할 수 있도록 위임을 받음
+// MARK: -Implemented 'didTapResult' functionality
 extension SearchViewController: SearchResultsViewControllerDelegate {
     func didTapResult(_ result: SearchResult) {
         switch result {
@@ -197,24 +173,26 @@ extension SearchViewController: SearchResultsViewControllerDelegate {
     }
 }
 
-
-// Extension (Delegate, DataSource)
+// MARK: - Delegate, DataSource, Layout
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    // number of Section
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
+    // number Of Items In Section
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categories.count
     }
     
+    // cell Return
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier,
                                                             for: indexPath) as? CategoryCollectionViewCell else {
             return CategoryCollectionViewCell()
         }
         
-        // 임의상수 category에 API Parsing을 통해 채워진 categories 배열의 index싱을 통한 item 값을 할당하고
         let category = categories[indexPath.item]
         cell.configure(with: CategoryCollectionViewCellViewModel(
             title: category.name,
@@ -223,8 +201,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         return cell
     }
     
+    // selected Items
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // 셀 선택효과 해제
         collectionView.deselectItem(at: indexPath, animated: true)
         
         // Haptics

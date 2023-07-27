@@ -8,11 +8,11 @@
 import UIKit
 import SwiftUI
 
-// Section Type
+// MARK: - Section Type (Associated Values)
 enum BrowseSectionType {
-    case newRelease(viewModels: [NewReleasesCellViewModel]) // 1
-    case featuredPlaylists(viewModels: [FeaturedPlaylistsCellViewModel]) // 2
-    case recommendedTracks(viewModels: [RecommendedTrackCellViewModel]) // 3
+    case newRelease(viewModels: [NewReleasesCellViewModel])
+    case featuredPlaylists(viewModels: [FeaturedPlaylistsCellViewModel])
+    case recommendedTracks(viewModels: [RecommendedTrackCellViewModel])
     
     var title: String {
         switch self {
@@ -28,13 +28,17 @@ enum BrowseSectionType {
 
 class HomeViewController: UIViewController {
     
-    // data empty array
+    // Array to store parsed data
     private var newAlbum: [Album] = []
     private var playlists: [Playlist] = []
     private var track: [AudioTrack] = []
     
+    // Sections
+    private var sections = [BrowseSectionType]()
     
-    // 전체 컬렉션뷰 초기 설정 (Layout은 [CompositionalLayout] 으로 진행할 예정이며, 레이아웃의 경우 createSectionLayout(NSCollectionLayoutSection)을 반환함
+    // MARK: - Components
+    
+    // CollectionView
     private var collectionView: UICollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewCompositionalLayout { sectionIndex, _ -> NSCollectionLayoutSection? in
@@ -42,7 +46,7 @@ class HomeViewController: UIViewController {
         }
     )
     
-    // MARK: - UIActivityIndicatorView(데이터를 불러올 동안 표시될 Spinner를 선언)
+    // UIActivityIndicatorView(Spinner)
     private let spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView()
         spinner.tintColor = .label
@@ -50,32 +54,25 @@ class HomeViewController: UIViewController {
         return spinner
     }()
     
-    // Section -> 위에서 선언한 SectionType의 값을 선언
-    private var sections = [BrowseSectionType]()
-    
-    // viewDidLoad()
+    // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Home"
         view.backgroundColor = .systemBackground
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"),
-                                                            style: .done,
-                                                            target: self,
-                                                            action: #selector(didTapSetting))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "gear"),
+            style: .done,
+            target: self,
+            action: #selector(didTapSetting)
+        )
         
-        // Configure CollectionView
-        configureCollectionView()
-        // spinner를 하위뷰로 추가
+        configureCollectionView() // configure collectionView
         view.addSubview(spinner)
-        
-        // Fetch API Data
-        fetchData()
-        
-        // add playlists
-        addLongTapGesture()
+        fetchData() // fetch API Data
+        addLongTapGesture() // LongGesture action in collectionView (Add Playlists Gesture)
     }
     
-    // viewDidLayoutSubViews()
+    // MARK: - Layout Settings
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -90,22 +87,23 @@ class HomeViewController: UIViewController {
         collectionView.addGestureRecognizer(gesture)
     }
     
+    // configure didLongPress
     @objc func didLongPress(_ gesture: UILongPressGestureRecognizer) {
         guard gesture.state == .began else {
             return
         }
         
-        // touchPoint(CGPoint) : gesture(LongPress)가 시작된 지점
+        // touchPoint(CGPoint) : The point at which the gesture(LongPress) started
         let touchPoint = gesture.location(in: collectionView)
         
-        // indexPath : collectionView에서 선택한 아이템의 IndexPath(위치는 touchPoint)
+        // indexPath : IndexPath of the item selected in collectionView
         guard let indexPath = collectionView.indexPathForItem(at: touchPoint),
-              // 추가로, IndexPath의 section이 2번째 (즉, Recommended Track일 때)
+              // the section of the IndexPath is the second('Recommended Track' section)
               indexPath.section == 2 else {
             return
         }
         
-        // selectedItem은 Recommended Track의 indexPath에 따른 Track(AudioTrack)
+        // selectedItem
         let selectedItem = track[indexPath.item]
         
         // actionSheet (alert)
@@ -117,23 +115,18 @@ class HomeViewController: UIViewController {
         
         actionSheet.addAction(UIAlertAction(title: "취소",
                                             style: .cancel))
-        
-        // MARK: - 저장 버튼을 눌렀을 때
         actionSheet.addAction(UIAlertAction(title: "저장",
                                             style: .default, handler: { [weak self] _ in
             
-            // 어디 플레이리스트에 저장할 것인데?
+            // Add Playlists Process
             DispatchQueue.main.async {
-                // vc로 해당 LibraryPlaylist VC를 선언하고
                 let vc = LibraryPlaylistsViewController()
-                // 해당 vc에서 public 프로퍼티로 선언된 selectionHandler에 값을 할당함
                 vc.selectionHandler = { playlist in
                     APICaller.shared.addTrackToUserPlaylist(track: selectedItem,
                                                         playlist: playlist) { success in
                         print("플레이리스트에 트랙이 저장되었습니다 : \(success)")
                     }
                 }
-                
                 vc.title = "저장할 플레이리스트를 선택해주세요"
                 self?.present(UINavigationController(rootViewController: vc), animated: true)
             }
@@ -144,9 +137,10 @@ class HomeViewController: UIViewController {
     }
     
     
-    // MARK: - ConfigureCollectionView
+    // MARK: - Configure CollectionView
     private func configureCollectionView() {
         view.addSubview(collectionView)
+      
         // Register Cell
         collectionView.register(UICollectionViewCell.self,
                                 forCellWithReuseIdentifier: "cell")
@@ -157,7 +151,7 @@ class HomeViewController: UIViewController {
         collectionView.register(RecommendedTrackCollectionViewCell.self,
                                 forCellWithReuseIdentifier: "RecommendedTrackCollectionViewCell")
         
-        // headerview(ReusableView) 등록
+        // headerview(ReusableView)
         collectionView.register(TitleHeaderCollectionReusableView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: TitleHeaderCollectionReusableView.identifier)
@@ -167,33 +161,25 @@ class HomeViewController: UIViewController {
         collectionView.backgroundColor = .systemBackground
     }
     
-    // New Release Album Data Fetch
+    // MARK: - Fetch Data (with API Caller)
     private func fetchData() {
-        // API 데이터가 파싱된 이후, 레이아웃을 완성시키고자 함
+        let group = DispatchGroup() // create DispatchGroup
         
-        // Dispatch Group
-        // enter : 각각의 Task를 Queue에 담을 때 호출하는 메서드
-        // leave : 해당 task가 완료되었음을 알리는 메서드
-        // notify : 전체 Task가 완료되었음을 알림(이후, 필요한 작업을 실시)
-        let group = DispatchGroup() // 여러개의 디스패치 작업을 담당
-        
-        // enter()를 통해 Task Count를 3 증가시킴
+        // Task Count Up
         group.enter()
         group.enter()
         group.enter()
-        print("Start fetching data")
         
-        // 각각의 API Model 변수를 가져와 -> APICaller를 통해 호출된 데이터 불러오는 메서드의 model 상수에 할당함
+        // Model (Response)
         var newReleases: NewReleaseResponse?
         var featuredPlaylists: FeaturedPlaylistsResponse?
         var recommendedTracks: RecommendationsResponse?
         
-        // new Releases
+        // 1. new Releases
         APICaller.shared.getNewRelease { result in
             defer {
                 group.leave()
             }
-            
             switch result {
             case .success(let model):
                 newReleases = model
@@ -202,7 +188,7 @@ class HomeViewController: UIViewController {
             }
         }
         
-        // Featured Playlists
+        // 2. Featured Playlists
         APICaller.shared.getFeaturedPlaylists { result in
             defer {
                 group.leave()
@@ -215,7 +201,7 @@ class HomeViewController: UIViewController {
                 print(error.localizedDescription)
             }
         }
-        // Recommended Tracks
+        // 3.Recommended Tracks
         APICaller.shared.getRecommendedGenres { result in
             switch result {
             case .success(let model):
@@ -231,7 +217,6 @@ class HomeViewController: UIViewController {
                     defer {
                         group.leave()
                     }
-                    // seeds 데이터 할당하기
                     switch recommendedResult {
                     case .success(let model):
                         recommendedTracks = model
@@ -239,13 +224,12 @@ class HomeViewController: UIViewController {
                         print(error.localizedDescription)
                     }
                 }
-                
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
         
-        // UI 이므로, Queue는 별도로 설정하지 않은 main Queue임
+        // notify
         group.notify(queue: .main) {
             guard let newAlbum = newReleases?.albums.items,
                   let playlists = featuredPlaylists?.playlists.items,
@@ -253,16 +237,13 @@ class HomeViewController: UIViewController {
                 fatalError("Models are nil")
             }
             
-            // API가 정상적으로 할당되었을 때 -> configureModel 메서드(section에 model 데이터를 함께 심는 과정)를 실행함
+            // configureModels
             self.configureModels(newAlbum: newAlbum, playlists: playlists, tracks: tracks)
         }
     }
     
     
-    // Models configure
-    // 1. 임의로 만들어 둔 ViewModel (Model에서 필요한 객체만 별도로 정리)을 활용하기 위해, 각각의 Model에서의 배열 데이터들을 매개변수로 선언하고,
-    // 2. section(빈 배열 형태의 타입이지만, 필요한 데이터를 매개변수로 가지고 있는)에서 활용할 수 있는 데이터를 매개변수에서 하나씩 뽑아서 section 배열에 할당하는 로직을 만듬
-    // 3. 그렇게 되면, 위 fetchData 메서드에서 받아오는 API 데이터들을 활용하여 section 빈 배열에 실제 데이터를 할당할 수 있음
+    // MARK: - Models configure (section Associated Values)
     private func configureModels(newAlbum: [Album],
                                  playlists: [Playlist],
                                  tracks: [AudioTrack]) {
@@ -305,21 +286,20 @@ class HomeViewController: UIViewController {
     }
 }
 
-// MARK: - Extension to configure Layout
+// MARK: - Delegate, DataSource, Layout
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
-    // 컬렉션 뷰 내 섹션의 갯수
+    // number of Section
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return sections.count
     }
     
-    // 컬렉션 뷰 내 섹션에 있는 아이템의 갯수
+    // number Of Items In Section
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        // type은 sections 타입 중, Index에 따른 section의 모든 경우의 수를 받아옴
+        // Index section
         let type = sections[section]
         
-        // 이후, section 별로 Item의 갯수를 각각 다르게 반환함
         switch type {
         case .newRelease(viewModels: let viewModels):
             return viewModels.count
@@ -330,14 +310,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
     
-    // 컬렉션뷰에 포함되는 cell Item의 정보
+    // cell Return
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         // type은 sections 타입 중, Index에 따른 section의 모든 경우의 수를 받아옴
         let type = sections[indexPath.section]
         
+        // Returns the created Reusable cell
         switch type {
-            
         case .newRelease(viewModels: let viewModels) :
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewReleaseCollectionViewCell.identifier,
                                                           for: indexPath) as? NewReleaseCollectionViewCell else {
@@ -371,12 +351,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
-        // Haptics
+        // Haptics Effect
         HapticManager.shared.vibrateForSelection()
         
         let section = sections[indexPath.section]
         
-        // 각각의 Section 내부의 item으로 접근(didSelectedItem)하기 위한 과정
         switch section {
         case .featuredPlaylists :
             let playlist = playlists[indexPath.item]
@@ -392,11 +371,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             navigationController?.pushViewController(vc, animated: true)
         case .recommendedTracks :
             let track = track[indexPath.item]
-            // Modality -> PlayBackPresent 내 presnt 메서드 (PlayerViewController로 이동)
             PlayBackPresenter.shared.startPlayback(from: self, track: track)
          }
     }
     
+    // setting headerView
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                      withReuseIdentifier: TitleHeaderCollectionReusableView.identifier,
@@ -409,12 +388,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return header
     }
     
-    // MARK: - NSCollectionLayoutSection (Section의 레이아웃을 구성하는 메서드)
-    // NSCollectionLayoutSize 요소들 (absoluteSize -> 항상 고정된 크기 / estimated -> 런타임 시, 크기가 변할 가능성이 있을 경우 / fractional -> 자신이 속한 컨테이너의 크기를 기반으로 비율을 설정. 0.0~1.0)
+    // MARK: - NSCollectionLayoutSection (setting sections layout)
     static func createSectionLayout(section: Int) -> NSCollectionLayoutSection {
         
-        // section별로 Header의 레이아웃을 설정
-        let supplementaryViews =  [
+        // header Layout
+        let supplementaryViews = [
             NSCollectionLayoutBoundarySupplementaryItem(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1),
@@ -425,119 +403,85 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             )
         ]
         
-        
+        // Secton Layout
         switch section {
-        // New Release Album
         case 0 :
-            
-            // Item
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
-            
-            
-            // Vertical group in horizontal group
+        
             let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                            heightDimension: .estimated(130))
-
             let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalGroupSize,
                                                                  repeatingSubitem: item,
                                                                  count: 2)
-            
             let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9),
                                                              heightDimension: .estimated(260))
-
-            
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalGroupSize,
                                                                      repeatingSubitem: verticalGroup,
                                                                      count: 1)
-            
-            // Section
+
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .groupPaging
-            
-            // header 추가
             section.boundarySupplementaryItems = supplementaryViews
             
             return section
             
-        // Feature playlists
         case 1 :
-            
-            // Item
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
-            
-            // Group
+
             let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                              heightDimension: .absolute(150))
-            
             let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalGroupSize,
                                                                      repeatingSubitem: item,
                                                                      count: 2)
-            
-            // Group (vericalGroup -> count 1)
             let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4),
                                                              heightDimension: .absolute(300))
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalGroupSize,
                                                                      repeatingSubitem: verticalGroup,
                                                                      count: 1)
-            // Section
+
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .continuous
-            // header 추가
             section.boundarySupplementaryItems = supplementaryViews
             
             return section
             
-        // Recommended Tracks
         case 2 :
-            
-            // Item
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
             
-            
-            // Vertical group in horizontal group
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                            heightDimension: .absolute(80))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
                                                                  repeatingSubitem: item,
                                                                  count: 1)
-            // Section
+
             let section = NSCollectionLayoutSection(group: group)
-         
-            // header 추가
-          
-            
             section.boundarySupplementaryItems = supplementaryViews
+            
             return section
         
         // Mock-up
         default :
-            // Item
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
             
-            // Group
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                    heightDimension: .absolute(390))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
                                                          repeatingSubitem: item,
                                                          count: 1)
-            // Section
             let section = NSCollectionLayoutSection(group: group)
+            
             return section
         }
     }

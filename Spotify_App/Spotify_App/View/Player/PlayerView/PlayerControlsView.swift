@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-// PlayerControlsViewDeleagate -> 어디서 실행한다? -> 상위뷰에서 위임받아서, 내부 메서드를 구성
+// Delegate protocol
 protocol PlayerControlsViewDelegate: AnyObject {
     func playControlsViewDidTapPlayPause(_ playerControlsView: PlayerControlsView)
     func playControlsViewDidTapForwardButton(_ playerControlsView: PlayerControlsView)
@@ -16,18 +16,17 @@ protocol PlayerControlsViewDelegate: AnyObject {
     func playControlsView(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float)
 }
 
-struct PlayerControlsViewViewModel {
-    let title: String?
-    let subtitle: String?
-}
-
 class PlayerControlsView: UIView {
     
-    weak var delegate: PlayerControlsViewDelegate?
-    
+    // flag
     private var isPlaying: Bool = true
     
-    // MARK: - Label & Slider & Buttons
+    // delegate
+    weak var delegate: PlayerControlsViewDelegate?
+    
+    // MARK: - Components (Label & Slider & Buttons)
+    
+    // Stack view with full components
     private let verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -36,7 +35,7 @@ class PlayerControlsView: UIView {
         return stackView
     }()
     
-    // MARK: - Label + StackView
+    // StackView (with labels)
     private let labelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -70,9 +69,8 @@ class PlayerControlsView: UIView {
         return label
     }()
     
-    // TODO: - iOS 15이후, UIButton 사용방식 업데이트에 따라 Button 전체 리팩토링
     
-    // MARK: - Slider
+    // Slider
     private let volumeSlider: UISlider = {
         let slider = UISlider()
         slider.value = 0.5
@@ -85,8 +83,7 @@ class PlayerControlsView: UIView {
         return slider
     }()
     
-    // MARK: - Buttons
-    // Button StackView
+    // StackView (with buttons)
     private let buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -148,6 +145,7 @@ class PlayerControlsView: UIView {
         return button
     }()
     
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -156,7 +154,6 @@ class PlayerControlsView: UIView {
         verticalStackView.addArrangedSubview(buttonStackView)
         addSubview(verticalStackView)
         
-        // labelStackView
         labelStackView.addArrangedSubview(trackNameLabel)
         labelStackView.addArrangedSubview(artistNameLabel)
         
@@ -174,7 +171,7 @@ class PlayerControlsView: UIView {
         buttonStackView.addArrangedSubview(forwardsButton)
         buttonStackView.addArrangedSubview(repeatButton)
         
-        // Buttons Action
+        // MARK: - Buttons Action
         backwardsButton.addTarget(
             self,
             action: #selector(didTapBackward),
@@ -198,6 +195,7 @@ class PlayerControlsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Layout setting
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -210,13 +208,15 @@ class PlayerControlsView: UIView {
         ])
     }
     
-    // configure dataSource
+    // MARK: - Configure
     func configure(with viewModel: PlayerControlsViewViewModel) {
         trackNameLabel.text = viewModel.title
         artistNameLabel.text = viewModel.subtitle
     }
     
-    // Actions
+    // MARK: - Components(Slider, Button) Action
+    
+    // slider
     @objc func didSlideSlider(_ slider: UISlider) {
         let value = slider.value
         delegate?.playControlsView(
@@ -224,14 +224,17 @@ class PlayerControlsView: UIView {
         )
     }
     
+    // backward button
     @objc func didTapBackward() {
         delegate?.playControlsViewDidTapBackwardButton(self)
     }
     
+    // forward button
     @objc func didTapForward() {
         delegate?.playControlsViewDidTapForwardButton(self)
     }
     
+    // PlayPause button
     @objc func didTapPlayPause() {
         delegate?.playControlsViewDidTapPlayPause(self)
         self.isPlaying = !isPlaying

@@ -7,23 +7,31 @@
 
 import UIKit
 
-// delegate protocol
+// Delegate protocol
 protocol LibraryToggleViewDelegate: AnyObject {
     func libraryToggleViewDidTapPlaylists(_ toggleView: LibraryToggleView)
     func libraryToggleViewDidTapAlbums(_ toggleView: LibraryToggleView)
 }
 
+
 class LibraryToggleView: UIView {
     
+    // MARK: - Paging the screen according to offset location and status button click
+    // State
     enum State {
         case playlist
         case album
     }
     
+    // flag
     var state: State = .playlist
     
+    // delegate
     weak var delegate: LibraryToggleViewDelegate?
     
+    // MARK: - Components
+    
+    // playlists state button
     private let playlistsButton: UIButton = {
        let button = UIButton()
         button.setTitleColor(.label, for: .normal)
@@ -31,6 +39,7 @@ class LibraryToggleView: UIView {
         return button
     }()
     
+    // album state button
     private let albumsButton: UIButton = {
        let button = UIButton()
         button.setTitleColor(.label, for: .normal)
@@ -38,7 +47,7 @@ class LibraryToggleView: UIView {
         return button
     }()
     
-    // indicator view
+    // indicator view (Bottom of each button)
     private let indicatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemGreen
@@ -47,6 +56,7 @@ class LibraryToggleView: UIView {
         return view
     }()
     
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(playlistsButton)
@@ -70,13 +80,14 @@ class LibraryToggleView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - State Button Tapped Action
+    
     @objc private func didTapPlaylists() {
         state = .playlist
         
         UIView.animate(withDuration: 0.2) {
             self.layoutIndicator()
         }
-        // setContentOffset 위치 이동
         delegate?.libraryToggleViewDidTapPlaylists(self)
     }
     
@@ -87,11 +98,10 @@ class LibraryToggleView: UIView {
         UIView.animate(withDuration: 0.2) {
             self.layoutIndicator()
         }
-        // setContentOffset 위치 이동
         delegate?.libraryToggleViewDidTapAlbums(self)
     }
     
-    // TODO: - AutoLayout으로 변경
+    // MARK: - Layout setting
     override func layoutSubviews() {
         super.layoutSubviews()
         playlistsButton.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
@@ -100,7 +110,9 @@ class LibraryToggleView: UIView {
         layoutIndicator()
     }
     
-    // indicator를 이동시키기 위한 메서드(+ Animation)
+    // MARK: - Move Indicator View
+    
+    // Change the position of the indicator depending on the State(album, playlists)
     func layoutIndicator() {
         switch state {
         case .playlist:
@@ -110,7 +122,7 @@ class LibraryToggleView: UIView {
         }
     }
     
-    // contentOffset가 넘어갈 때, state를 변경시켜주고, 화면(scrollViewDidScroll)과 indicator도 변경시킴
+    // update (Scene, Indicator Both)
     func update(for state: State) {
         self.state = state
         UIView.animate(withDuration: 0.2) {

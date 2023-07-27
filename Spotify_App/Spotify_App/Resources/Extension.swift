@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-// MARK: - UIView의 frame 값을 일일이 작성하지 않고도, 리턴값이 설정된 해당 사이즈 변수(width, height, left, right, top, bottom)를 호출
+// MARK: - Presets the size of the UIView
 extension UIView {
     var width: CGFloat {
         return frame.size.width
@@ -24,7 +24,6 @@ extension UIView {
     }
     
     var right: CGFloat {
-        // UIView의 Trailing 위치(x좌표 + UIView의 너비 Constant 값)
         return left + width
     }
     
@@ -61,7 +60,7 @@ extension String {
     }
 }
 
-// Notification name
+// MARK: - Notification name
 extension Notification.Name {
     static let albumSavedNotification = Notification.Name("albumSavedNotification")
 }

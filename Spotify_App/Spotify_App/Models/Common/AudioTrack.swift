@@ -15,12 +15,8 @@ struct AudioTrack: Codable {
     let id: String
     let name: String
     
-    // track별로 Album이 다를 수 있으므로, var로 설정
+    // Each track has a different album
     var album: Album?
+    let preview_url: String?  // playing audio
     
-    // playing audio
-    let preview_url: String?
-    
-    // TODO: Track 시간 추가하기
-//    var duration_ms: String?
 }

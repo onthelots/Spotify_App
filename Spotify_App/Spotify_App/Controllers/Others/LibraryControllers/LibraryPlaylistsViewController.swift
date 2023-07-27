@@ -9,15 +9,18 @@ import UIKit
 
 class LibraryPlaylistsViewController: UIViewController {
     
+    // store parsed data
     var playlists = [Playlist]()
     
     // MARK: - 특정 트랙을 LongPress 한 후, 저장버튼을 눌렀을 때 현재 View로 이동되는데, 이때 실행되는 Handler
     public var selectionHandler: ((Playlist) -> Void)?
     
-    // 플레이리스트가 없는 경우 나타낼 UIView()
+    // MARK: - Components
+    
+    // actionLabelView()
     private let noPlaylistsView = ActionLabelView()
     
-    // 플레이리스트를 보여줄 UITableView
+    // tableView()
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -29,6 +32,7 @@ class LibraryPlaylistsViewController: UIViewController {
         return tableView
     }()
 
+    // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -46,12 +50,15 @@ class LibraryPlaylistsViewController: UIViewController {
         }
     }
     
+    // MARK: - Dismiss()
     @objc func didTapClose() {
         dismiss(animated: true)
     }
     
+    // MARK: - Layout Settings
     override func viewDidLayoutSubviews() {
         
+        // noPlaylistView
         noPlaylistsView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -59,6 +66,7 @@ class LibraryPlaylistsViewController: UIViewController {
             noPlaylistsView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         
+        // tableView
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -67,11 +75,10 @@ class LibraryPlaylistsViewController: UIViewController {
         ])
     }
     
-    // MARK: - setUp No PlaylistView (플레이리스트가 없을때)
+    // MARK: - setup (no Playlist view)
     private func setUpNoPlaylistView() {
         view.addSubview(noPlaylistsView)
         
-        // 델리게이트 생성 (noPlaylistsView의 위임을 해당 VC에서 받는다)
         noPlaylistsView.delegate = self
         noPlaylistsView.configure(
             with: ActionLabelViewModel(
@@ -95,7 +102,7 @@ class LibraryPlaylistsViewController: UIViewController {
         }
     }
     
-    // MARK: - UI 업데이트
+    // MARK: - UI Update
     private func updateUI() {
         if playlists.isEmpty {
             noPlaylistsView.isHidden = false
@@ -108,7 +115,7 @@ class LibraryPlaylistsViewController: UIViewController {
         }
     }
     
-    // MARK: - Playlists를 생성하는 Alert 실행 메서드
+    // MARK: - Add Playlists
     public func showCreatePlaylistAlert() {
         // Show creation UI Playlists
         let alert = UIAlertController(
@@ -117,16 +124,14 @@ class LibraryPlaylistsViewController: UIViewController {
             preferredStyle: .alert
         )
         
-        // textField 추가
+        // textField
         alert.addTextField { textfield in
             textfield.placeholder = "이름"
         }
         
-        // alert action 1
+        // alert action
         alert.addAction(UIAlertAction(title: "취소",
                                       style: .cancel))
-        
-        // alert action 2 -> completion handler를 통해 실행
         alert.addAction(UIAlertAction(title: "생성",
                                       style: .default,
                                       handler: { _ in
@@ -153,18 +158,21 @@ class LibraryPlaylistsViewController: UIViewController {
     }
 }
 
-// MARK: - delegate (ActionDidTapButton / 플레이리스트 생성 버튼을 눌렀을 때)
+// MARK: - delegate (did '플레이리스트 생성하기' Tapped)
 extension LibraryPlaylistsViewController: ActionLabelVieweDelegate {
     func actionLabelViewDidTapButton(_ actionView: ActionLabelView) {
         showCreatePlaylistAlert()
     }
 }
 
+// MARK: - Delegate, DataSource, Layout
 extension LibraryPlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
+    // number Of Rows In Section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return playlists.count
     }
     
+    // cell Return
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultSubtitleTableViewCell.identifier,
                                                        for: indexPath) as? SearchResultSubtitleTableViewCell else {
@@ -177,6 +185,7 @@ extension LibraryPlaylistsViewController: UITableViewDelegate, UITableViewDataSo
         return cell
     }
     
+    // selected Row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -188,21 +197,17 @@ extension LibraryPlaylistsViewController: UITableViewDelegate, UITableViewDataSo
         
         // MARK: - selectionHandler
         guard selectionHandler == nil else {
-            // 만약, selectionHandler가 비어있다면?
-            // selectionHandler는 현재 선택된(row) Playlist 값이 할당됨
             selectionHandler?(playlist)
             dismiss(animated: true)
             return
         }
         
-        
         let vc = PlaylistViewController(playlist: playlist)
         vc.navigationItem.largeTitleDisplayMode = .never
-        vc.isOwner = true
         navigationController?.pushViewController(vc, animated: true)
-        
     }
     
+    // row height
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }

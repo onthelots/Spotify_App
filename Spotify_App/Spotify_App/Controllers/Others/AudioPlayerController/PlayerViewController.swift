@@ -8,6 +8,7 @@
 import UIKit
 import Kingfisher
 
+// Delegate protocol(configure Action in PlayBackPresenter)
 protocol PlayerControllerDelegate: AnyObject {
     func didTapPlayPause()
     func didTapFoward()
@@ -17,10 +18,12 @@ protocol PlayerControllerDelegate: AnyObject {
 
 class PlayerViewController: UIViewController {
     
-    // 5️⃣ MARK: - dataSource (playerDataSource protocol object)
     weak var dataSource: PlayerDataSource?
     
+    // songName, subtitle, imageURL..
     weak var delegate: PlayerControllerDelegate?
+    
+    // MARK: - Components
     
     // imageView
     private let imageView: UIImageView = {
@@ -33,6 +36,8 @@ class PlayerViewController: UIViewController {
     // controlsView
     private let controlsView = PlayerControlsView()
     
+    
+    // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -42,17 +47,17 @@ class PlayerViewController: UIViewController {
         // delegate pattern
         controlsView.delegate = self
         controlsView.translatesAutoresizingMaskIntoConstraints = false
-        // NavigationBarButton configure
-        configureBarButton()
         
-        // configure playerDataSource (dataSource에 데이터를 할당)
+        configureBarButton()
         configure()
     }
     
+    // MARK: - Layout SubView
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         let safeArea = view.safeAreaLayoutGuide
+        
         // imageView
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.8),
@@ -64,16 +69,14 @@ class PlayerViewController: UIViewController {
         // controllsView
         NSLayoutConstraint.activate([
             controlsView.widthAnchor.constraint(equalTo: self.imageView.widthAnchor, multiplier: 1.0),
-//            controlsView.heightAnchor.cons
             controlsView.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: 20),
-            // MARK: - PlayerControlsView 임의 크기 (아래 추가적인 정보를 담는 View만큼의 크기를 남김)
             controlsView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -100),
             controlsView.centerXAnchor.constraint(equalTo: self.imageView.centerXAnchor)
         ])
         
     }
     
-    // NavigationBarButton setting(configure)
+    // MARK: - NavigationBarButton setting(configure)
     private func configureBarButton() {
         // leftBarButtonItem
         navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -83,22 +86,13 @@ class PlayerViewController: UIViewController {
             action: #selector(didTapClose)
         )
         
-        // rightBarButtonItem
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "ellipsis"),
-            style: .done,
-            target: self,
-            action: #selector(didTapAction)
-        )
-        
         // Bar Item Color
         navigationItem.leftBarButtonItem?.tintColor = .label
-        navigationItem.rightBarButtonItem?.tintColor = .label
     }
     
-    // 6️⃣ configure playerDataSource (dataSource에 데이터를 할당)
-    // 여기서는 imageView 밖엔 없으니, 해당 ImageView에 dataSource.url을 할당
+    // MARK: - Configure Data
     private func configure() {
+        
         // imageView
         imageView.kf.setImage(with: dataSource?.imageURL)
         
@@ -111,17 +105,13 @@ class PlayerViewController: UIViewController {
     }
     
     // MARK: - Action
+    
     // dismiss (LeftBarButtonItem)
     @objc private func didTapClose() {
         dismiss(animated: true, completion: nil)
     }
     
-    // action (LeftBarButtonItem)
-    @objc private func didTapAction() {
-        // Actions -> Share
-    }
-    
-    // 다음 버튼, 뒤로 버튼이 눌렸을 경우 configure을 재 실시함
+    // refresh Data (in PlayBackPresenter, with Action)
     func refreshUI() {
         configure()
     }

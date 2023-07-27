@@ -14,7 +14,7 @@ struct PlaylistDetailsResponse: Codable {
     let images: [APIImage]
     let name: String
     let `public`: Bool
-    let tracks: PlaylistTracksResponse // Playlist의 다양한 트랙(Album)
+    let tracks: PlaylistTracksResponse
 }
 
 // 해당 Album 별 Playlist

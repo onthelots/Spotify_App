@@ -11,19 +11,18 @@ import Kingfisher
 class CategoryCollectionViewCell: UICollectionViewCell {
     static let identifier = "CategoryCollectionViewCell"
     
+    // MARK: - Components
     // imageView
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .white
-        
-        // imageView rotation (36도)
-        imageView.transform = imageView.transform.rotated(by: .pi/5)
+        imageView.transform = imageView.transform.rotated(by: .pi/5) // rotate
         return imageView
     }()
     
-    // label
+    // titleLabel
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +34,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -62,9 +61,11 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         )
     }
     
+    // MARK: - Layout setting
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        // imageView
         NSLayoutConstraint.activate([
             imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 10),
@@ -81,6 +82,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    // random Category block color
     private var colors: [UIColor] = [
         .systemRed,
         .systemOrange,
@@ -93,6 +95,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         .systemTeal
     ]
     
+    // MARK: - Configure
     func configure(with viewModel: CategoryCollectionViewCellViewModel) {
         titleLabel.text = viewModel.title
         imageView.kf.setImage(with: viewModel.artworkURL)

@@ -13,8 +13,8 @@ struct AlbumDetailsResponse: Codable {
     let external_urls: ExternalUrls
     let id: String
     let images: [APIImage]
-    let label: String // 제작사 이름
-    let name: String // 제목
+    let label: String
+    let name: String 
     let tracks: TracksResponse
 }
 
