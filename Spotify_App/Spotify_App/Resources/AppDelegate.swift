@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
         
         // App이 Launch될 때, 나타나야 할 window를 -> window 임의 상수로 설정하고,
         let window = UIWindow(frame: UIScreen.main.bounds)
@@ -51,6 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AuthManager.shared.refreshTokenIfNeeded { success in
             print("토큰이 새로고침 되었습니다 : \(success)")
         }
+    
         return true
     }
 
@@ -67,7 +69,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-
 }
 
