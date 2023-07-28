@@ -91,7 +91,6 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         .systemBlue,
         .systemIndigo,
         .systemPurple,
-        .systemMint,
         .systemTeal
     ]
     

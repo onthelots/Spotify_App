@@ -12,8 +12,6 @@
 		3F1D0BB42A6FBCDF0012FA19 /* LibraryToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1D0BB32A6FBCDF0012FA19 /* LibraryToggleView.swift */; };
 		3F3989DA2A65697F00D6F2D2 /* AlbumCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3989D92A65697F00D6F2D2 /* AlbumCollectionViewCellViewModel.swift */; };
 		3F3EE6082A5D45F30059A82F /* APIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3EE6072A5D45F30059A82F /* APIImage.swift */; };
-		3F4530CA2A723F4F000ADB8B /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 3F4530C92A723F4F000ADB8B /* GoogleSignIn */; };
-		3F4530CC2A723F4F000ADB8B /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3F4530CB2A723F4F000ADB8B /* GoogleSignInSwift */; };
 		3F50F0192A4D6D4000C6AC7E /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50F0182A4D6D4000C6AC7E /* AuthManager.swift */; };
 		3F50F01B2A4D765900C6AC7E /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50F01A2A4D765900C6AC7E /* Extension.swift */; };
 		3F50F01D2A4DA9D200C6AC7E /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50F01C2A4DA9D200C6AC7E /* AuthResponse.swift */; };
@@ -76,6 +74,7 @@
 		3FDBD3EE2A65129000434F25 /* PlaylistHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDBD3ED2A65129000434F25 /* PlaylistHeaderViewModel.swift */; };
 		3FDBD3F02A654D8700434F25 /* TitleHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDBD3EF2A654D8700434F25 /* TitleHeaderCollectionReusableView.swift */; };
 		3FDBD3F82A655D3F00434F25 /* AlbumTrackCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDBD3F72A655D3F00434F25 /* AlbumTrackCollectionViewCell.swift */; };
+		3FF604842A73748E0073382B /* ClientID+Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF604832A73748E0073382B /* ClientID+Secret.swift */; };
 		3FFDFE5E2A55A5B800FBBF7B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 3FFDFE5D2A55A5B800FBBF7B /* Kingfisher */; };
 /* End PBXBuildFile section */
 
@@ -102,7 +101,6 @@
 		3F1D0BB32A6FBCDF0012FA19 /* LibraryToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryToggleView.swift; sourceTree = "<group>"; };
 		3F3989D92A65697F00D6F2D2 /* AlbumCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		3F3EE6072A5D45F30059A82F /* APIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIImage.swift; sourceTree = "<group>"; };
-		3F4530C72A7198AA000ADB8B /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
 		3F50F0182A4D6D4000C6AC7E /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		3F50F01A2A4D765900C6AC7E /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		3F50F01C2A4DA9D200C6AC7E /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
@@ -169,6 +167,7 @@
 		3FDBD3ED2A65129000434F25 /* PlaylistHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderViewModel.swift; sourceTree = "<group>"; };
 		3FDBD3EF2A654D8700434F25 /* TitleHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		3FDBD3F72A655D3F00434F25 /* AlbumTrackCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTrackCollectionViewCell.swift; sourceTree = "<group>"; };
+		3FF604832A73748E0073382B /* ClientID+Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClientID+Secret.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,9 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F4530CC2A723F4F000ADB8B /* GoogleSignInSwift in Frameworks */,
 				3FFDFE5E2A55A5B800FBBF7B /* Kingfisher in Frameworks */,
-				3F4530CA2A723F4F000ADB8B /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,7 +217,6 @@
 		3F6228132A4D2DCC0048B7F9 = {
 			isa = PBXGroup;
 			children = (
-				3F4530C72A7198AA000ADB8B /* AppConfig.xcconfig */,
 				3F62281E2A4D2DCC0048B7F9 /* Spotify_App */,
 				3F6228352A4D2DCD0048B7F9 /* Spotify_AppTests */,
 				3F62283F2A4D2DCD0048B7F9 /* Spotify_AppUITests */,
@@ -241,6 +237,7 @@
 		3F62281E2A4D2DCC0048B7F9 /* Spotify_App */ = {
 			isa = PBXGroup;
 			children = (
+				3FF604822A7374670073382B /* ClientID */,
 				3FB6635F2A7279E000006787 /* App */,
 				3F6228552A4D30EF0048B7F9 /* Resources */,
 				3F6228502A4D30C50048B7F9 /* Managers */,
@@ -629,6 +626,14 @@
 			path = HomeViewDetailCell;
 			sourceTree = "<group>";
 		};
+		3FF604822A7374670073382B /* ClientID */ = {
+			isa = PBXGroup;
+			children = (
+				3FF604832A73748E0073382B /* ClientID+Secret.swift */,
+			);
+			path = ClientID;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -647,8 +652,6 @@
 			name = Spotify_App;
 			packageProductDependencies = (
 				3FFDFE5D2A55A5B800FBBF7B /* Kingfisher */,
-				3F4530C92A723F4F000ADB8B /* GoogleSignIn */,
-				3F4530CB2A723F4F000ADB8B /* GoogleSignInSwift */,
 			);
 			productName = Spotify_App;
 			productReference = 3F62281C2A4D2DCC0048B7F9 /* Spotify_App.app */;
@@ -724,7 +727,6 @@
 			mainGroup = 3F6228132A4D2DCC0048B7F9;
 			packageReferences = (
 				3FFDFE5C2A55A5B800FBBF7B /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				3F4530C82A723F4F000ADB8B /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 3F62281D2A4D2DCC0048B7F9 /* Products */;
 			projectDirPath = "";
@@ -783,6 +785,7 @@
 				3F6228572A4D346A0048B7F9 /* TabBarViewController.swift in Sources */,
 				3F6228602A4D355F0048B7F9 /* AuthViewController.swift in Sources */,
 				3FB4D0F62A54020D006C19B8 /* HomeViewController.swift in Sources */,
+				3FF604842A73748E0073382B /* ClientID+Secret.swift in Sources */,
 				3F9B22772A68E3DE007C345F /* SearchResult.swift in Sources */,
 				3F9B227E2A691FAC007C345F /* SearchResultSubtitleTableViewCell.swift in Sources */,
 				3F668D192A5FDEEE00CB755B /* RecommendedTrackCollectionViewCell.swift in Sources */,
@@ -993,7 +996,6 @@
 		};
 		3F6228472A4D2DCD0048B7F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F4530C72A7198AA000ADB8B /* AppConfig.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1021,7 +1023,6 @@
 		};
 		3F6228482A4D2DCD0048B7F9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F4530C72A7198AA000ADB8B /* AppConfig.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1165,14 +1166,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3F4530C82A723F4F000ADB8B /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
-			requirement = {
-				kind = exactVersion;
-				version = 7.0.0;
-			};
-		};
 		3FFDFE5C2A55A5B800FBBF7B /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -1184,16 +1177,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3F4530C92A723F4F000ADB8B /* GoogleSignIn */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3F4530C82A723F4F000ADB8B /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
-			productName = GoogleSignIn;
-		};
-		3F4530CB2A723F4F000ADB8B /* GoogleSignInSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3F4530C82A723F4F000ADB8B /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
-			productName = GoogleSignInSwift;
-		};
 		3FFDFE5D2A55A5B800FBBF7B /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3FFDFE5C2A55A5B800FBBF7B /* XCRemoteSwiftPackageReference "Kingfisher" */;

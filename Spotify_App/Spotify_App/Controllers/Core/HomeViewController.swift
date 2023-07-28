@@ -409,15 +409,15 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         
             let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                           heightDimension: .estimated(130))
+                                                           heightDimension: .estimated(75))
             let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalGroupSize,
                                                                  repeatingSubitem: item,
-                                                                 count: 2)
-            let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9),
-                                                             heightDimension: .estimated(260))
+                                                                 count: 3)
+            let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                                             heightDimension: .estimated(225))
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalGroupSize,
                                                                      repeatingSubitem: verticalGroup,
                                                                      count: 1)
@@ -425,7 +425,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .groupPaging
             section.boundarySupplementaryItems = supplementaryViews
-            
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0)
             return section
             
         case 1 :
@@ -435,19 +435,21 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
 
             let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                             heightDimension: .absolute(150))
+                                                             heightDimension: .absolute(160))
             let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalGroupSize,
                                                                      repeatingSubitem: item,
                                                                      count: 2)
+            
             let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4),
-                                                             heightDimension: .absolute(300))
+                                                             heightDimension: .absolute(320))
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalGroupSize,
                                                                      repeatingSubitem: verticalGroup,
                                                                      count: 1)
-
+            
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .continuous
             section.boundarySupplementaryItems = supplementaryViews
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0)
             
             return section
             
@@ -465,6 +467,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
             let section = NSCollectionLayoutSection(group: group)
             section.boundarySupplementaryItems = supplementaryViews
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0)
             
             return section
         

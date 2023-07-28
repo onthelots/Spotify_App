@@ -25,19 +25,9 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
     // albumLabel
     private let albumLabel: UILabel = {
        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .headline)
+        label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
         label.textAlignment = .left
         label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    // numberOfTracksLabel
-    private let numberOfTracksLabel: UILabel = {
-       let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
-        label.textAlignment = .left
-        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -45,7 +35,17 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
     // artistNameLabel
     private let artistNameLabel: UILabel = {
        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
+        label.font = UIFont.systemFont(ofSize: 11, weight: .regular)
+        label.textAlignment = .left
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    // numberOfTracksLabel
+    private let numberOfTracksLabel: UILabel = {
+       let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 9, weight: .light)
         label.textAlignment = .left
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -93,7 +93,7 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
         
         // artistNameLabel
         artistNameLabel.sizeToFit()
-        albumLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        artistNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         NSLayoutConstraint.activate([
             artistNameLabel.topAnchor.constraint(equalTo: albumLabel.bottomAnchor, constant: 5),
             artistNameLabel.leadingAnchor.constraint(equalTo: albumLabel.leadingAnchor),

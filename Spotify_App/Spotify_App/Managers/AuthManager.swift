@@ -10,27 +10,11 @@ import Foundation
 final class AuthManager {
     static let shared = AuthManager()
     
-    // MARK: - User app information in Spotify dashboard (not changed)
     struct Constants {
-        // clientID
-        static let clientID: String = {
-            guard let path = Bundle.main.path(forResource: "Info", ofType: "plist"),
-                  let dict = NSDictionary(contentsOfFile: path),
-                  let clientID = dict["clientID"] as? String else {
-                fatalError("This is not a valid client ID.")
-            }
-            return clientID
-        }()
+        // MARK: - 🔒 User app information in Spotify dashboard (not changed)
+        static let clientID: String = ClientID.youtClientID
+        static let clientSecret: String = ClientID.yourClientSecret
         
-        // clientSecret
-        static let clientSecret: String = {
-            guard let path = Bundle.main.path(forResource: "Info", ofType: "plist"),
-                  let dict = NSDictionary(contentsOfFile: path),
-                  let clientSecret = dict["clientSecret"] as? String else {
-                fatalError("This is not a valid clientSecret.")
-            }
-            return clientSecret
-        }()
         // Request Access Token URL
         static let tokenAPIURL: String = "https://accounts.spotify.com/api/token"
         static let redirectURI: String = "https://iosdevlime.tistory.com/"
