@@ -14,10 +14,10 @@ final class AuthManager {
         // MARK: - 🔒 User app information in Spotify dashboard (not changed)
         static let clientID: String = ClientID.youtClientID
         static let clientSecret: String = ClientID.yourClientSecret
+        static let redirectURI: String = ClientID.yourRedirectURL
         
         // Request Access Token URL
         static let tokenAPIURL: String = "https://accounts.spotify.com/api/token"
-        static let redirectURI: String = "https://iosdevlime.tistory.com/"
         
         // Scope(사용자 인증 범위)
         static let scopes: String = "user-read-private%20playlist-modify-public%20playlist-read-private%20playlist-modify-private%20user-follow-read%20user-library-modify%20user-library-read%20user-read-email"
