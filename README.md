@@ -176,7 +176,7 @@ Spotify_App
 <br> 
 
 ### 4-2 [Feature 2] 사용자 인증 및 로그인, 프로필 기능 구현
-4-2-1 User Authmetication
+4-2-1 User Authmetication  
 
 `OAuth 2.0 로그인 과정에 대한 학습을 우선적으로 실시함 (동작과정)`
   - Spotify Web API 가이드에 따라 로그인 요청 ➟ 페이지 제공 ➟ Auth Code 발급 및 Token 교환 ➟ DB 저장 ➟ API 호출(Finish!)
@@ -184,7 +184,8 @@ Spotify_App
   - **TroubleShooting** : [401 repsponse Error 발생 및 해결과정](https://github.com/users/onthelots/projects/5?pane=issue&itemId=32561891)
 
 
-4-2-2 Profile (유저 정보)
+4-2-2 Profile (유저 정보)  
+
 `API Parsing (APICaller 객체 생성)을 통한 SignIn 및 인증을 완료한 User의 프로필 정보(개발자)를 받아옴`
 - AuthManager를 통해 생성한 Token(Access_Token, Refresh_Token)의 유효성 검사를 통해 올바른 토큰을 가지고 있을 경우 Request을 실시
 - 인증 만료 후, 새로운 Token이 생성될 시 기존의 Token과의 중복문제를 해소하기 위해 'onRefreshBlocks' 비어있는 클로저 배열을 생성하여 관리
@@ -192,7 +193,8 @@ Spotify_App
 <br> 
 
 ### 4-3 [Feature 3] 탭(Tab)별 API 데이터 구축 및 UI 구성
-4-3-1 Browse Tab
+4-3-1 Browse Tab  
+
 `새로나온 앨범(NewRelese), 추천 재생목록(FeaturedPlaylist), 유사한 아티스트&트랙(Recommendations) 나타내기`
 -  각각의 Section별 구분을 목표로, 해당 View에서 활용되는 ViewModel을 Associated Values으로 설정하는  BrowseSectionType을 생성
 
@@ -207,7 +209,8 @@ enum BrowseSectionType {
 - 수직 스크롤 화면 내, 수평 스크롤로 구성된 <새로나온 앨범>, <추천 재생목록>을 구현하기 위해 Compositional Layout을 사용
 
 
-4-3-2 Search Tab
+4-3-2 Search Tab  
+
 `검색바 추가 및 검색 기능 구현(UIsearchViewController)`
 - 검색 결과(Query 입력 및 Search 완료 버튼) 입력값에 따라, UI를 4개의 섹션으로 구분(SearchResult)하여 업데이트
 ```swift
@@ -260,7 +263,11 @@ enum BrowseSectionType {
 ```
 
 4-3-4 Library Tab
-- UIScrollView 내 2개의 'Child ViewController를 할당, 로그인한 유저정보를 기반으로 나만의 Playlist 생성 및 삭제, Album 저장기능 구현 
+
+`UIScrollView 내 2개의 'Child ViewController를 할당, 로그인한 유저정보를 기반으로 나만의 Playlist 생성 및 삭제, Album 저장기능 구현`
+- Child ViewController(Playlists, Albums)내 포함된 데이터 여부를 확인(GET), 커스텀 View인 'ActionLabelView(데이터가 없음)'를 토글함
+- Playlists : 데이터가 없을 경우 생성(POST) 메서드를 통해 만들고, 'UILongPressGestureRecognizer'를 활용해 저장(POST), 삭제(DELETE)함
+- Album : 기존 서버 데이터상에 존재하므로, 저장(PUT)을 실시함
 ```
     private func addChildren() {
         addChild(playlistVC)
@@ -274,9 +281,6 @@ enum BrowseSectionType {
         albumsVC.didMove(toParent: self)
     }
 ```
-- Child ViewController(Playlists, Albums)내 포함된 데이터 여부를 확인(GET), 커스텀 View인 'ActionLabelView(데이터가 없음)'를 토글함
-- Playlists : 데이터가 없을 경우 생성(POST) 메서드를 통해 만들고, 'UILongPressGestureRecognizer'를 활용해 저장(POST), 삭제(DELETE)함
-- Album : 기존 서버 데이터상에 존재하므로, 저장(PUT)을 실시함
 
 
 <br>
