@@ -5,48 +5,50 @@
 
 <br> 
 
-## 목차
+# 목차
 
-[1. 프로젝트 소개]
-> 1.1. 개요
-> 1.2. 주요목표
-> 1.3. 개발환경
-> 1.4. 구동방법
+[1-프로젝트 소개](#1-프로젝트-소개)
 
-[2. Architecture]
-> 2.1. 전체 구조
-> 2.2. 파일 디렉토리
+- [1-1 개요](#1-1-개요)
+- [1-2 주요목표](#1-2-주요목표)
+- [1-3 개발환경](#1-3-개발환경)
+- [1-4 구동방법](#1-4-구동방법)
 
-[3. 프로젝트 특징]
-> 3.1. HomeTab
-> 3.2. SearchTab
-> 3.3. LibraryTab
-> 3.4. Player
+[2-Architecture](#2-architecture)
+- [2-1 전체 구조](#2-1-전체-구조)
+- [2-2 파일 디렉토리](#2-2-파일-디렉토리)
 
-[4. 프로젝트 세부과정] 
-> 4.1. [Feature 1] 어떤 앱을 만들것인가?
-> 4.2. [Feature 2] 사용자 인증 및 로그인, 프로필 기능 구현
-> 4.3. [Feature 3] 탭(Tab)별 API 데이터 구축 및 UI 구성
+[3-프로젝트 특징](#3-프로젝트-특징)
+- [3-1 HomeTab](#3-1-HomeTab)
+- [3-2 SearchTab](#3-2-SearchTab)
+- [3-3 LibraryTab](#3-3-LibraryTab)
+- [3-4 Player](#3-4-Player)
 
-[5. 업데이트 및 리팩토링 사항] 
-> 5.1. 우선 순위별 개선항목
-> 5.2. 그외 항목
+[4-프로젝트 세부과정](#4-프로젝트-세부과정)
+- [4-1 Feature 1_- 어떤 앱을 만들것인가?](#4-1-[Feature-1]-어떤-앱을-만들-것인가?-(+-UI-Design))
+- [4-2 Feature 2 - 사용자 인증 및 로그인, 프로필 기능 구현](#4-2-[Feature-2]-사용자-인증-및-로그인,-프로필-기능-구현)
+- [4-3 Feature 3 - 탭(Tab)별 API 데이터 구축 및 UI 구성](#4-3-[Feature-3]-탭(Tab)별-API-데이터-구축-및-UI-구성)
+
+[5-업데이트 및 리팩토링 사항](#5-업데이트-및-리팩토링-사항)
+- [5-1 우선 순위별 개선항목](#5-1-우선-순위별-개선항목)
+- [5-2 그 외 항목](#5-2-그-외-항목)
 
 --- 
 
-## 1. 프로젝트 소개
-### 1.1. 개요
+## 1-프로젝트 소개
+
+### 1-1 개요
 `Spotify Web API를 활용한 나만의 음악 재생 앱`
 - **기획 및 개발** : 2023.06.10 ~ 2023.07.28 (약 6주)
 - 세계 최대 음원 스트리밍 서비스인 Spotify를 **커스텀 UI 디자인**으로 구현
 - <새로나온 앨범>, <플레이리스트 및 장르별 음악>, <아티스트 및 앨범 찾기>, <플레이리스트 만들기> 외 다양한 기능 제공
 
-### 1.2. 주요 목표
+### 1-2 주요 목표
 - OAuth2.0의 동작 메커니즘(Resource Owner - Client - Authorization & Resource Server) 이해
 - Spotify Web API에서 제공하는 문서를 바탕으로 RESTFul API 구현 
 - Code-base UI AutoLayout 구현
 
-### 1.3. 개발 환경
+### 1-3 개발 환경
 - 활용기술 외 키워드
   - iOS : swift 5.8, xcode 14.3.1, UIKit
   - Network: URLSession, RESTFul API, OAuth
@@ -55,7 +57,7 @@
 - 라이브러리
   - KingFisher (7.0.0)
  
-### 1.4. 구동 방법
+### 1-4 구동 방법
 - 🗣️ 반드시 아래 절차에 따라 구동해주시길 바랍니다. 
 - WKWeb, Spotify 전용 회원가입 및 개발자 설정이 필요합니다 (Google, Facebook, Apple 미 지원) 
 - 구동이 잘 되지 않거나, 로그인 후 화면에 아무것도 보이지 않는다면 아래 메일로 문의 부탁드립니다. 
@@ -73,8 +75,8 @@
 
 <br>
 
-## 2. Architecture
-### 2.1. MVC
+## 2-Architecture
+### 2-1 MVC
 
 <img width="2299" alt="Proeject Architecture" src="https://github.com/onthelots/Spotify_App/assets/107039500/1c192a15-8ad6-4974-b0fb-260821cd8601">
 
@@ -87,7 +89,7 @@
 - Music Player의 경우, 2가지 경우의 수(하나의 트랙 혹은 전체 트랙)를 가지고 있음
 - 단일한 ViewController에서 담당할 수 없다고 판단하여 Presenter를 통해 View 및 Model의 상태를 확인, 업데이트하는 역할을 수행하도록 함
 
-### 2.2. 디렉토리
+### 2-2 디렉토리
 ```
 Spotify_App
  ┣ 📂App
@@ -119,8 +121,8 @@ Spotify_App
 
 <br>
 
-## 3. 프로젝트 특징
-### 3.1. 새로나온 앨범, 인기있는 플레이리스트, 취향에 맞는 음악 제공 (HomeTab)
+## 3-프로젝트 특징
+### 3-1 새로나온 앨범, 인기있는 플레이리스트, 취향에 맞는 음악 제공 (HomeTab)
 - Spotify Web API 데이터 파싱에 따라, 실시간으로 음악정보를 확인함  
 - 단일 앨범을 비롯, 주제에 따라 다양한 트랙이 혼합된 플레이리스트 제공
     
@@ -130,7 +132,7 @@ Spotify_App
 
 ---
 
-### 3.2. 키워드를 통해 음악, 아티스트, 앨범 검색(SearchTab)
+### 3-2 키워드를 통해 음악, 아티스트, 앨범 검색(SearchTab)
 - Search API 파싱 데이터를 SearchResults 모델 객체로 변환하여 음악, 아티스트, 앨범 검색결과를 섹션별로 나타냄 
 - 주제(카테고리)에 따라 동일한 속성값(category.id)을 가지고 있는 플레이리스트를 제공
 
@@ -140,7 +142,7 @@ Spotify_App
 
 ---
 
-### 3.3. 마음에 드는 플레이리스트 혹은 앨범을 저장&관리(LibraryTab)
+### 3-3 마음에 드는 플레이리스트 혹은 앨범을 저장&관리(LibraryTab)
 - 로그인 유저가 직접 플레이리스트의 명칭과 포함될 트랙을 추가할 수 있음
 - Long Tap Gesture를 활용하여 플레이리스트 내 트랙 추가 (현재는 HomeTab 하단 추천 트랙만 추가 가능)
 - 마음에 드는 앨범이 있을 경우, 앨범 페이지 우측 상단에 (+) 버튼을 눌러 즐겨찾는 앨범 추가
@@ -151,7 +153,7 @@ Spotify_App
 
 ---
 
-### 3.4. 단일 트랙 혹은 플레이리스트(앨범) 별 음악 재생 (Player)
+### 3-4 단일 트랙 혹은 플레이리스트(앨범) 별 음악 재생 (Player)
 - AVPlayer Framework를 활용하여 트랙 및 플레이리스트(앨범) 전체 재생 가능 
   - 🖐🏻 시뮬레이터로 구동시, delay가 발생하며, 실제 디바이스에서는 테스트 완료)
   - 시작/정지(PlayPause), 다음 트랙(Forward), 이전 트랙(Backward) 기능 구현
@@ -164,16 +166,16 @@ Spotify_App
 
 <br>
 
-## 4. 프로젝트 세부과정
-### 4.1. [Feature 1] 어떤 앱을 만들 것인가? (+ UI Design)
-4-1-1. 프로젝트 목표설정
+## 4-프로젝트 세부과정
+### 4-1 [Feature 1] 어떤 앱을 만들 것인가? (+ UI Design)
+4-1-1 프로젝트 목표설정
 
 `UIKit 개발 프레임워크를 활용, OPEN API 네트워크 구현, 구상화 목표`
 
  - 스토리보드를 사용하지 않고 AutoLayout을 구현하는 Code-base를 활용
  - 단순하면서, 기초적으로 앱 구조를 구축하고자 MVC 패턴 적용
 
-4-1-2. 앱 컨셉 및 디자인
+4-1-2 앱 컨셉 및 디자인
 
 `API Parsing, 그리고 OAuth 인증&로그인 과정을 경험하고자 Spotify Clone App을 구상`
 
@@ -181,8 +183,8 @@ Spotify_App
 
 <br> 
 
-### 4.2. [Feature 2] 사용자 인증 및 로그인, 프로필 기능 구현
-4-2-1. User Authmetication
+### 4-2 [Feature 2] 사용자 인증 및 로그인, 프로필 기능 구현
+4-2-1 User Authmetication
 
 `OAuth 2.0 로그인 과정에 대한 학습을 우선적으로 실시함 (동작과정)`
   - Spotify Web API 가이드에 따라 로그인 요청 ➟ 페이지 제공 ➟ Auth Code 발급 및 Token 교환 ➟ DB 저장 ➟ API 호출(Finish!)
@@ -190,15 +192,15 @@ Spotify_App
   - **TroubleShooting** : [401 repsponse Error 발생 및 해결과정](https://github.com/users/onthelots/projects/5?pane=issue&itemId=32561891)
 
 
-4-2-2.Profile (유저 정보)
+4-2-2 Profile (유저 정보)
 `API Parsing (APICaller 객체 생성)을 통한 SignIn 및 인증을 완료한 User의 프로필 정보(개발자)를 받아옴`
 - AuthManager를 통해 생성한 Token(Access_Token, Refresh_Token)의 유효성 검사를 통해 올바른 토큰을 가지고 있을 경우 Request을 실시
 - 인증 만료 후, 새로운 Token이 생성될 시 기존의 Token과의 중복문제를 해소하기 위해 'onRefreshBlocks' 비어있는 클로저 배열을 생성하여 관리
 
 <br> 
 
-### 4.3. [Feature 3] 탭(Tab)별 API 데이터 구축 및 UI 구성
-4-3-1. Browse Tab
+### 4-3 [Feature 3] 탭(Tab)별 API 데이터 구축 및 UI 구성
+4-3-1 Browse Tab
 `새로나온 앨범(NewRelese), 추천 재생목록(FeaturedPlaylist), 유사한 아티스트&트랙(Recommendations) 나타내기`
 -  각각의 Section별 구분을 목표로, 해당 View에서 활용되는 ViewModel을 Associated Values으로 설정하는  BrowseSectionType을 생성
 
@@ -213,7 +215,7 @@ enum BrowseSectionType {
 - 수직 스크롤 화면 내, 수평 스크롤로 구성된 <새로나온 앨범>, <추천 재생목록>을 구현하기 위해 Compositional Layout을 사용
 
 
-4-3-2. Search Tab
+4-3-2 Search Tab
 `검색바 추가 및 검색 기능 구현(UIsearchViewController)`
 - 검색 결과(Query 입력 및 Search 완료 버튼) 입력값에 따라, UI를 4개의 섹션으로 구분(SearchResult)하여 업데이트
 ```swift
@@ -238,7 +240,7 @@ enum BrowseSectionType {
     }
 ```
 
-4-3-3. Player Music
+4-3-3 Player Music
 
 `개별 트랙(Track, single track) 혹은 재생목록(Playlists, tracks) Player UI 구현(Modality)`
 - AVPlayer framework를 활용하여 [재생&일시정지] [이전 트랙] [다음 트랙] 기능 구현 (AVPlayer, AVQueuePlayer)
@@ -265,7 +267,7 @@ enum BrowseSectionType {
 
 ```
 
-4-3-4. Library Tab
+4-3-4 Library Tab
 - UIScrollView 내 2개의 'Child ViewController를 할당, 로그인한 유저정보를 기반으로 나만의 Playlist 생성 및 삭제, Album 저장기능 구현 
 ```
     private func addChildren() {
@@ -287,24 +289,24 @@ enum BrowseSectionType {
 
 <br>
 
-## 5. 업데이트 및 리팩토링 사항
-### 우선 순위별 개선항목
-1. API Caller 메서드 로직 수정
+## 5-업데이트 및 리팩토링 사항
+### 5-1 우선 순위별 개선항목
+API Caller 메서드 로직 수정
 - [ ] Library 내 저장되는 Playlists와 Albums의 경우, 동일한 데이터를 중복적으로 저장할 수 있는 이슈 해결필요
 
-2. Player 기능
+Player 기능
 - [ ] Playlists나 Albums을 전체 재생할 때, 되감기 혹은 반복기능 추가 (AudioTrack 데이터 구조 내 재생시간 관련 객체 확인)
 - [ ] Volume을 담당하는 UISilder 기능 제거, 재생 시간에 따른 UISlider 업데이트 방식으로 리팩토링 필요
 
-3. 일부 Track의 미리보기 재생(Preview_urls)값이 있음에도 불구하고, 재생이 되지 않는 문제
+일부 Track의 미리보기 재생(Preview_urls)값이 있음에도 불구하고, 재생이 되지 않는 문제
 - [ ] Tracks의 미리보기 재생이 없는 경우 분기처리를 통하여 UI 업데이트를 하지 않도록 제한
 
-### 그외 항목
-1. UI 개선
+### 5-2 그 외 항목
+UI 개선
 - [ ] frame-base layout을 AutoLayout으로 전부 대체하기
 - [ ] Color Palette를 활용하여 보다 통일감 있는 디자인 구성하기
 
-2. Architecture 재 검토
+Architecture 재 검토
 - [ ] ViewController 및 API Caller 내 과도한 역할집중으로 인한 부차적인 문제 우려, MVVM 패턴으로의 리팩토링 고려
 
 <br>
