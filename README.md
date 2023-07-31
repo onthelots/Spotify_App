@@ -15,23 +15,15 @@
 - [1-4 구동방법](#1-4-구동방법)
 
 [2-Architecture](#2-architecture)
-- [2-1 전체 구조](#2-1-전체-구조)
+- [2-1 구조도](#2-1-구조도)
 - [2-2 파일 디렉토리](#2-2-파일-디렉토리)
 
 [3-프로젝트 특징](#3-프로젝트-특징)
-- [3-1 HomeTab](#3-1-HomeTab)
-- [3-2 SearchTab](#3-2-SearchTab)
-- [3-3 LibraryTab](#3-3-LibraryTab)
-- [3-4 Player](#3-4-Player)
 
 [4-프로젝트 세부과정](#4-프로젝트-세부과정)
-- [4-1 Feature 1_- 어떤 앱을 만들것인가?](#4-1-[Feature-1]-어떤-앱을-만들-것인가?-(+-UI-Design))
-- [4-2 Feature 2 - 사용자 인증 및 로그인, 프로필 기능 구현](#4-2-[Feature-2]-사용자-인증-및-로그인,-프로필-기능-구현)
-- [4-3 Feature 3 - 탭(Tab)별 API 데이터 구축 및 UI 구성](#4-3-[Feature-3]-탭(Tab)별-API-데이터-구축-및-UI-구성)
 
 [5-업데이트 및 리팩토링 사항](#5-업데이트-및-리팩토링-사항)
-- [5-1 우선 순위별 개선항목](#5-1-우선-순위별-개선항목)
-- [5-2 그 외 항목](#5-2-그-외-항목)
+
 
 --- 
 
@@ -43,12 +35,12 @@
 - 세계 최대 음원 스트리밍 서비스인 Spotify를 **커스텀 UI 디자인**으로 구현
 - <새로나온 앨범>, <플레이리스트 및 장르별 음악>, <아티스트 및 앨범 찾기>, <플레이리스트 만들기> 외 다양한 기능 제공
 
-### 1-2 주요 목표
+### 1-2 주요목표
 - OAuth2.0의 동작 메커니즘(Resource Owner - Client - Authorization & Resource Server) 이해
 - Spotify Web API에서 제공하는 문서를 바탕으로 RESTFul API 구현 
 - Code-base UI AutoLayout 구현
 
-### 1-3 개발 환경
+### 1-3 개발환경
 - 활용기술 외 키워드
   - iOS : swift 5.8, xcode 14.3.1, UIKit
   - Network: URLSession, RESTFul API, OAuth
@@ -57,7 +49,7 @@
 - 라이브러리
   - KingFisher (7.0.0)
  
-### 1-4 구동 방법
+### 1-4 구동방법
 - 🗣️ 반드시 아래 절차에 따라 구동해주시길 바랍니다. 
 - WKWeb, Spotify 전용 회원가입 및 개발자 설정이 필요합니다 (Google, Facebook, Apple 미 지원) 
 - 구동이 잘 되지 않거나, 로그인 후 화면에 아무것도 보이지 않는다면 아래 메일로 문의 부탁드립니다. 
@@ -76,7 +68,7 @@
 <br>
 
 ## 2-Architecture
-### 2-1 MVC
+### 2-1 구조도
 
 <img width="2299" alt="Proeject Architecture" src="https://github.com/onthelots/Spotify_App/assets/107039500/1c192a15-8ad6-4974-b0fb-260821cd8601">
 
@@ -89,7 +81,7 @@
 - Music Player의 경우, 2가지 경우의 수(하나의 트랙 혹은 전체 트랙)를 가지고 있음
 - 단일한 ViewController에서 담당할 수 없다고 판단하여 Presenter를 통해 View 및 Model의 상태를 확인, 업데이트하는 역할을 수행하도록 함
 
-### 2-2 디렉토리
+### 2-2 파일 디렉토리
 ```
 Spotify_App
  ┣ 📂App
