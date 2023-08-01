@@ -268,7 +268,8 @@ enum BrowseSectionType {
 - Child ViewController(Playlists, Albums)내 포함된 데이터 여부를 확인(GET), 커스텀 View인 'ActionLabelView(데이터가 없음)'를 토글함
 - Playlists : 데이터가 없을 경우 생성(POST) 메서드를 통해 만들고, 'UILongPressGestureRecognizer'를 활용해 저장(POST), 삭제(DELETE)함
 - Album : 기존 서버 데이터상에 존재하므로, 저장(PUT)을 실시함
-```
+
+```swift 
     private func addChildren() {
         addChild(playlistVC)
         scrollView.addSubview(playlistVC.view)
