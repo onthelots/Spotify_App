@@ -291,6 +291,10 @@ enum BrowseSectionType {
 API Caller 메서드 로직 수정
 - [ ] Library 내 저장되는 Playlists와 Albums의 경우, 동일한 데이터를 중복적으로 저장할 수 있는 이슈 해결필요
 
+SNS 및 Google 로그인 기능 구현
+- [ ] 개별 SDK 적용 및 기존 인웹(WKWeb)을 SFSafariview로 대체하는 대안 비교 및 적용
+
+
 Player 기능
 - [ ] Playlists나 Albums을 전체 재생할 때, 되감기 혹은 반복기능 추가 (AudioTrack 데이터 구조 내 재생시간 관련 객체 확인)
 - [ ] Volume을 담당하는 UISilder 기능 제거, 재생 시간에 따른 UISlider 업데이트 방식으로 리팩토링 필요
