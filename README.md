@@ -303,3 +303,5 @@ enum BrowseSectionType {
 - [ ] ViewController 및 API Caller 내 과도한 역할집중으로 인한 부차적인 문제 우려, MVVM 패턴으로의 리팩토링 고려
 
 <br>
+
+<a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fonthelots%2FSpotify_App&count_bg=%231ED760&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
