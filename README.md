@@ -31,9 +31,11 @@
 
 ### 1-1 개요
 > Spotify Web API를 활용한 나만의 음악 재생 앱
-- **기획 및 개발** : 2023.06.10 ~ 2023.07.28 (약 6주)
-- 세계 최대 음원 스트리밍 서비스인 Spotify를 `커스텀 UI 디자인`으로 구현
-- `새로나온 앨범`, `플레이리스트 및 장르별 음악`, `아티스트 및 앨범 찾기`, `플레이리스트 생성` 외 다양한 기능 제공
+- **개발기간** : 2023.06.10 ~ 2023.07.28 (약 6주)
+- **참여인원** : 1인 (개인 프로젝트)
+- **주요특징**
+  - 세계 최대 음원 스트리밍 서비스인 Spotify를 커스텀 UI 디자인으로 구현
+  - 새로나온 앨범, 플레이리스트 및 장르별 음악, 아티스트 및 앨범 찾기, 플레이리스트 생성 외 다양한 기능 제공
 
 ### 1-2 주요목표
 - OAuth2.0의 동작 메커니즘(Resource Owner - Client - Authorization & Resource Server) 이해
@@ -41,12 +43,13 @@
 - Code-base UI AutoLayout 구현
 
 ### 1-3 개발환경
-- 활용기술 외 키워드
+- **활용기술 외 키워드**
   - **iOS** : swift 5.8, xcode 14.3.1, UIKit
   - **Network**: URLSession, OAuth(RESTful API)
   - **UI** : ScrollView, TableView, CollectionView, TabBar, StackView
   - **Layout** : AutoLayout(Code-base), Compositional Layout
-- 라이브러리
+
+- **라이브러리**
   - KingFisher (7.0.0)
  
 ### 1-4 구동방법
